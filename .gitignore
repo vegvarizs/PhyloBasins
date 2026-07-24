@@ -1,6 +1,23 @@
-.Rproj.user
+# R session files
 .Rhistory
 .RData
-.httr-oauth
+.Ruserdata
+
+# RStudio
+.Rproj.user/
+
+# Build outputs
+*.Rcheck/
+*.tar.gz
+
+# Operating systems
 .DS_Store
-.quarto
+
+# IDEs
+.vscode/
+.idea/
+
+# Compiled code
+*.o
+*.so
+*.dll
