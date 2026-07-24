@@ -1,0 +1,64 @@
+---
+title: "Getting Started with PhyloBasins"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with PhyloBasins}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+PhyloBasins is an R package for branch-based phylogenetic analyses of ecological communities. The package provides a reproducible workflow for validating phylogenetic trees, constructing branch tables, preparing community matrices, and generating sparse site × branch matrices that form the computational basis for phylogenetic diversity analyses.
+
+This vignette introduces the core workflow of the package using a simple example.
+
+## Workflow
+
+```text
+Phylogenetic tree
+        │
+        ▼
+prepare_tree()
+
+        │
+        ▼
+build_branch_table()
+
+        │
+Community matrix
+        │
+        ▼
+prepare_community()
+
+        │
+        ▼
+reference_branch_engine()
+
+        │
+        ▼
+Site × branch matrix
+```
+
+## Creating a project
+
+The first step is to create a PhyloBasins project object.
+
+```{r}
+library(PhyloBasins)
+
+pb <- pb_project()
+```
+
+The `pb_project()` constructor creates a project object that stores all input data and intermediate results throughout the analysis.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(PhyloBasins)
+```
