@@ -72,7 +72,7 @@ pb <- build_branch_table(pb)
 
 pb <- prepare_community(pb, community)
 
-pb <- reference_branch_engine(pb)
+pb <- build_site_branch_matrix(pb)
 
 head(pb$site_branch_matrix)
 ```
