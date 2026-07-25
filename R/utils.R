@@ -12,30 +12,26 @@
 
 #' Null-coalescing operator
 #'
-#' Returns the left-hand side unless it is NULL, otherwise returns the
-#' right-hand side.
+#' Returns `x` unless it is `NULL`, otherwise returns `y`.
 #'
 #' @param x Left-hand side.
 #' @param y Right-hand side.
 #'
 #' @return
-#' Either \code{x} or \code{y}.
+#' Either `x` or `y`.
 #'
+#' @name null-coalescing
+#' @aliases %||%
 #' @keywords internal
-#'
-#' @examples
-#' NULL %||% 1
-#' 5 %||% 1
+NULL
+
+#' @rdname null-coalescing
+#' @export
 `%||%` <- function(x, y) {
 
-  if (is.null(x)) {
-    y
-  } else {
-    x
-  }
+  if (is.null(x)) y else x
 
 }
-
 
 # -----------------------------------------------------------------------------
 # Safe match

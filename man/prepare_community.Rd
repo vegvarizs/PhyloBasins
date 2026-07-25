@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepare_community.R
 \name{prepare_community}
 \alias{prepare_community}
-\title{Prepare community data}
+\title{Prepare a community matrix}
 \usage{
 prepare_community(pb)
 }
@@ -13,5 +13,9 @@ prepare_community(pb)
 Updated \code{pb_project}.
 }
 \description{
-Builds internal lookup tables used by downstream biodiversity metrics.
+Validates a site × species community matrix and builds internal metadata
+required by downstream PhyloBasins algorithms.
+}
+\details{
+No biodiversity metrics are calculated.
 }

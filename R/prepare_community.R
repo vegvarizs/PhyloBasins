@@ -1,14 +1,17 @@
 # =============================================================================
 # PhyloBasins
 #
-# Prepare community data
+# Community preparation
 #
-# Builds reusable lookup structures for downstream analyses.
+# Validate and prepare a community matrix for downstream analyses.
 # =============================================================================
 
-#' Prepare community data
+#' Prepare a community matrix
 #'
-#' Builds internal lookup tables used by downstream biodiversity metrics.
+#' Validates a site × species community matrix and builds internal metadata
+#' required by downstream PhyloBasins algorithms.
+#'
+#' No biodiversity metrics are calculated.
 #'
 #' @param pb
 #' A validated \code{pb_project}.
@@ -21,80 +24,162 @@ prepare_community <- function(pb) {
 
   validate_pb_project(pb)
 
-  if (!pb$community$loaded)
+  if (!pb$community$loaded) {
+
     stop(
       "No community matrix has been loaded.",
       call. = FALSE
     )
 
-  if (!isTRUE(pb$community$validation$valid))
-    stop(
-      "Community data have not passed validation.",
-      call. = FALSE
-    )
+  }
 
   comm <- pb$community$matrix
 
-  n_sites <- nrow(comm)
-  n_species <- ncol(comm)
+  if (is.null(comm)) {
 
-  ## ------------------------------------------------------------
-  ## species -> sites
-  ## ------------------------------------------------------------
-
-  species_sites <- vector("list", n_species)
-
-  for (i in seq_len(n_species)) {
-
-    species_sites[[i]] <- which(comm[, i] == 1)
+    stop(
+      "Community matrix is NULL.",
+      call. = FALSE
+    )
 
   }
 
-  names(species_sites) <- colnames(comm)
-
   ## ------------------------------------------------------------
-  ## site -> species
+  ## dimensions
   ## ------------------------------------------------------------
 
-  site_species <- vector("list", n_sites)
+  if (nrow(comm) == 0L) {
 
-  for (i in seq_len(n_sites)) {
-
-    site_species[[i]] <- which(comm[i, ] == 1)
+    stop(
+      "Community matrix has no sites.",
+      call. = FALSE
+    )
 
   }
 
-  names(site_species) <- rownames(comm)
+  if (ncol(comm) == 0L) {
+
+    stop(
+      "Community matrix has no species.",
+      call. = FALSE
+    )
+
+  }
 
   ## ------------------------------------------------------------
-  ## summary vectors
+  ## names
   ## ------------------------------------------------------------
 
-  species_range_size <- colSums(comm)
+  if (is.null(rownames(comm))) {
 
-  names(species_range_size) <- colnames(comm)
+    stop(
+      "Community matrix has no site names.",
+      call. = FALSE
+    )
 
-  site_richness <- rowSums(comm)
+  }
 
-  names(site_richness) <- rownames(comm)
+  if (is.null(colnames(comm))) {
+
+    stop(
+      "Community matrix has no species names.",
+      call. = FALSE
+    )
+
+  }
 
   ## ------------------------------------------------------------
-  ## cache
+  ## duplicated names
   ## ------------------------------------------------------------
 
-  pb$community$cache <- list(
+  if (anyDuplicated(rownames(comm))) {
 
-    species_sites = species_sites,
+    stop(
+      "Duplicate site names detected.",
+      call. = FALSE
+    )
 
-    site_species = site_species,
+  }
 
-    species_range_size = species_range_size,
+  if (anyDuplicated(colnames(comm))) {
 
-    site_richness = site_richness
+    stop(
+      "Duplicate species names detected.",
+      call. = FALSE
+    )
+
+  }
+
+  ## ------------------------------------------------------------
+  ## missing values
+  ## ------------------------------------------------------------
+
+  if (anyNA(comm)) {
+
+    stop(
+      "Community matrix contains missing values.",
+      call. = FALSE
+    )
+
+  }
+
+  ## ------------------------------------------------------------
+  ## numeric
+  ## ------------------------------------------------------------
+
+  if (!is.numeric(comm)) {
+
+    stop(
+      "Community matrix must be numeric.",
+      call. = FALSE
+    )
+
+  }
+
+  ## ------------------------------------------------------------
+  ## binary check
+  ## ------------------------------------------------------------
+
+  values <- unique(as.vector(comm))
+
+  if (!all(values %in% c(0, 1))) {
+
+    stop(
+      "Community matrix must contain only 0 and 1.",
+      call. = FALSE
+    )
+
+  }
+
+  ## ------------------------------------------------------------
+  ## metadata
+  ## ------------------------------------------------------------
+
+  pb$community$metadata <- list(
+
+    n_sites = nrow(comm),
+
+    n_species = ncol(comm),
+
+    occupancy =
+      Matrix::colSums(comm),
+
+    richness =
+      Matrix::rowSums(comm)
+
+  )
+
+  pb$community$validation <- list(
+
+    valid = TRUE
 
   )
 
   pb$community$prepared <- TRUE
+
+  ## ------------------------------------------------------------
+  ## history
+  ## ------------------------------------------------------------
 
   pb$history <- rbind(
 

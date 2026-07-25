@@ -54,7 +54,10 @@ pb_project <- function() {
     site_branch_matrix = new_site_branch_matrix(),
 
 
-    metrics = list(),
+    metrics = list(
+      pd = new_pd(),
+      pe = new_pe()
+    ),
 
     maps = list(),
 
@@ -167,7 +170,7 @@ print.pb_project <- function(x, ...) {
   } else {
 
     cat(length(x$site_branch_matrix$sites),
-        " sites × ",
+        " sites",
         length(x$site_branch_matrix$branches),
         " branches\n",
         sep = "")

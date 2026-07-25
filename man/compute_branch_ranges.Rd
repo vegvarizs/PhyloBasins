@@ -7,16 +7,11 @@
 compute_branch_ranges(pb)
 }
 \arguments{
-\item{pb}{A prepared \code{pb_project}.}
+\item{pb}{A PhyloBasins project.}
 }
 \value{
-Updated \code{pb_project}.
+Updated project.
 }
 \description{
-Computes the number of sites occupied by each branch (the union of the
-occupied sites of all descendant species).
-}
-\details{
-The resulting range sizes are stored in
-\code{pb$branches$table$branch_range}.
+Computes the number of sites in which every branch occurs.
 }

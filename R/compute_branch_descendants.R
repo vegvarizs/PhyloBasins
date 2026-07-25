@@ -60,7 +60,10 @@ compute_branch_descendants <- function(
   ## postorder traversal
   ############################################################
 
-  phy_post <- reorder.phylo(phy, order = "postorder")
+  phy_post <- ape::reorder.phylo(
+    phy,
+    order = "postorder"
+  )
 
   postorder_nodes <- unique(phy_post$edge[,1])
 
