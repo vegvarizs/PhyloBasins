@@ -10,8 +10,16 @@ compute_branch_ranges(pb)
 \item{pb}{A PhyloBasins project.}
 }
 \value{
-Updated project.
+Updated project with
+
+\code{pb$metrics$branch_ranges$values}
+
+containing one range value per branch.
 }
 \description{
-Computes the number of sites in which every branch occurs.
+Calculates the geographic range of every branch as the number of sites
+in which the branch is represented.
+}
+\details{
+Requires a prepared site × branch matrix.
 }

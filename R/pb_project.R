@@ -56,6 +56,7 @@ pb_project <- function() {
 
     metrics = list(
       pd = new_pd(),
+      branch_ranges = new_branch_ranges(),
       pe = new_pe()
     ),
 
