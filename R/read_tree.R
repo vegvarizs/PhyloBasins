@@ -26,6 +26,10 @@
 #' @param file
 #' Path to the tree file.
 #'
+#' @param verbose
+#' Logical. Should progress messages be printed?
+#' Default is \code{TRUE}.
+#'
 #' @return
 #' Updated \code{pb_project}.
 #'
@@ -36,13 +40,19 @@
 #' }
 #'
 #' @export
-read_tree <- function(pb, file) {
+read_tree <- function(
+    pb,
+    file,
+    verbose = TRUE
+) {
 
   validate_pb_project(pb)
 
   if (!is.character(file) || length(file) != 1) {
-    stop("'file' must be a character string.",
-         call. = FALSE)
+    stop(
+      "'file' must be a character string.",
+      call. = FALSE
+    )
   }
 
   if (!file.exists(file)) {
@@ -58,13 +68,13 @@ read_tree <- function(pb, file) {
 
     ext,
 
-    nwk = ape::read.tree(file),
+    nwk     = ape::read.tree(file),
     newick = ape::read.tree(file),
-    tre = ape::read.tree(file),
-    tree = ape::read.tree(file),
+    tre     = ape::read.tree(file),
+    tree    = ape::read.tree(file),
 
-    nex = ape::read.nexus(file),
-    nexus = ape::read.nexus(file),
+    nex     = ape::read.nexus(file),
+    nexus   = ape::read.nexus(file),
 
     stop(
       sprintf(
@@ -80,6 +90,16 @@ read_tree <- function(pb, file) {
     stop(
       "Imported object is not of class 'phylo'.",
       call. = FALSE
+    )
+  }
+
+  if (verbose) {
+    message(
+      sprintf(
+        "Loaded phylogenetic tree (%d tips, %d internal nodes).",
+        ape::Ntip(phy),
+        phy$Nnode
+      )
     )
   }
 

@@ -4,12 +4,15 @@
 \alias{read_tree}
 \title{Read a phylogenetic tree}
 \usage{
-read_tree(pb, file)
+read_tree(pb, file, verbose = TRUE)
 }
 \arguments{
 \item{pb}{A \code{pb_project} object.}
 
 \item{file}{Path to the tree file.}
+
+\item{verbose}{Logical. Should progress messages be printed?
+Default is \code{TRUE}.}
 }
 \value{
 Updated \code{pb_project}.

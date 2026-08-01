@@ -4,15 +4,16 @@
 \alias{prepare_tree}
 \title{Prepare a phylogenetic tree}
 \usage{
-prepare_tree(pb)
+prepare_tree(pb, verbose = TRUE)
 }
 \arguments{
-\item{pb}{A validated \code{pb_project}.}
+\item{pb}{A validated pb_project.}
+
+\item{verbose}{Logical. Print progress messages?}
 }
 \value{
-Updated \code{pb_project}.
+Updated pb_project.
 }
 \description{
-Builds internal index structures used by downstream PhyloBasins
-algorithms. No biodiversity metrics are calculated.
+Builds internal index structures used by downstream PhyloBasins algorithms.
 }

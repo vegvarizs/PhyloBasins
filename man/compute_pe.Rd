@@ -2,16 +2,20 @@
 % Please edit documentation in R/compute_pe.R
 \name{compute_pe}
 \alias{compute_pe}
-\title{Compute phylogenetic endemism}
+\title{Compute Phylogenetic Endemism}
 \usage{
-compute_pe(pb)
+compute_pe(pb, overwrite = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{pb}{A prepared PhyloBasins project.}
+\item{pb}{A \code{pb_project} object.}
+
+\item{overwrite}{Logical. Overwrite an existing result?}
+
+\item{verbose}{Logical. Print progress messages?}
 }
 \value{
-Updated project.
+Updated \code{pb_project}.
 }
 \description{
-Computes phylogenetic endemism (PE) for every site.
+Computes Faith's Phylogenetic Endemism (PE) for every site.
 }

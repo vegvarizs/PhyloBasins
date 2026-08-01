@@ -1,21 +1,86 @@
-reference_branch_engine <- function(tree, branches, community) {
+# =============================================================================
+# PhyloBasins
+#
+# Reference Branch Engine
+#
+# Builds the site × branch incidence matrix.
+# =============================================================================
+
+reference_branch_engine <- function(
+    tree,
+    branches,
+    community
+) {
+
+  # ---------------------------------------------------------------------------
+  # Validate inputs
+  # ---------------------------------------------------------------------------
 
   validate_tree(tree)
   validate_branches(branches)
   validate_community(community)
 
-  if (!tree$prepared)
-    stop("Tree must be prepared.", call. = FALSE)
+  if (!isTRUE(tree$prepared)) {
+    stop(
+      "Tree must be prepared.",
+      call. = FALSE
+    )
+  }
 
-  if (!branches$prepared)
-    stop("Branches must be prepared.", call. = FALSE)
+  if (!isTRUE(branches$prepared)) {
+    stop(
+      "Branch table must be prepared.",
+      call. = FALSE
+    )
+  }
 
-  if (!community$prepared)
-    stop("Community must be prepared.", call. = FALSE)
+  if (!isTRUE(community$loaded)) {
+    stop(
+      "Community must be prepared.",
+      call. = FALSE
+    )
+  }
 
   branch_table <- branches$table
-
   community_matrix <- community$matrix
+
+  if (is.null(branch_table)) {
+    stop(
+      "Branch table is missing.",
+      call. = FALSE
+    )
+  }
+
+  if (is.null(community_matrix)) {
+    stop(
+      "Community matrix is missing.",
+      call. = FALSE
+    )
+  }
+
+  # ---------------------------------------------------------------------------
+  # Descendant cache
+  # ---------------------------------------------------------------------------
+
+  descendants <- branches$cache$descendant_species
+
+  if (is.null(descendants)) {
+    stop(
+      "Branch descendant cache is missing.",
+      call. = FALSE
+    )
+  }
+
+  if (length(descendants) != nrow(branch_table)) {
+    stop(
+      "Branch descendant cache is inconsistent.",
+      call. = FALSE
+    )
+  }
+
+  # ---------------------------------------------------------------------------
+  # Allocate matrix
+  # ---------------------------------------------------------------------------
 
   n_sites <- nrow(community_matrix)
   n_branches <- nrow(branch_table)
@@ -29,13 +94,19 @@ reference_branch_engine <- function(tree, branches, community) {
   rownames(sb) <- rownames(community_matrix)
   colnames(sb) <- branch_table$branch_id
 
+  taxa_names <- colnames(community_matrix)
+
+  # ---------------------------------------------------------------------------
+  # Fill matrix
+  # ---------------------------------------------------------------------------
+
   for (b in seq_len(n_branches)) {
 
-    descendants <- branch_table$descendant_species[[b]]
+    taxa <- descendants[[b]]
 
     idx <- match(
-      descendants,
-      colnames(community_matrix)
+      taxa,
+      taxa_names
     )
 
     idx <- idx[!is.na(idx)]
@@ -50,12 +121,22 @@ reference_branch_engine <- function(tree, branches, community) {
 
   }
 
-  out <- new_site_branch_matrix(
+  # ---------------------------------------------------------------------------
+  # Convert to sparse matrix
+  # ---------------------------------------------------------------------------
 
-    matrix = Matrix::Matrix(
-      sb,
-      sparse = TRUE
-    ),
+  sb <- Matrix::Matrix(
+    sb,
+    sparse = TRUE
+  )
+
+  # ---------------------------------------------------------------------------
+  # Build object
+  # ---------------------------------------------------------------------------
+
+  out <- pb_site_branch_matrix(
+
+    matrix = sb,
 
     sites = rownames(sb),
 

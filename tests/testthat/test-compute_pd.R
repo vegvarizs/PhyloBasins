@@ -64,10 +64,17 @@ test_that("compute_pd reproduces known PD values", {
 
   )
 
-  branches <- new_branches()
+  branches <- pb_branches()
 
   branches$table <- branch_table
   branches$prepared <- TRUE
+
+  # ---------------------------------------------------------------------------
+  # Branch cache (required by reference_branch_engine)
+  # ---------------------------------------------------------------------------
+
+  branches$cache$descendant_species <-
+    branch_table$descendant_species
 
   # ---------------------------------------------------------------------------
   # Community matrix
@@ -103,11 +110,15 @@ test_that("compute_pd reproduces known PD values", {
     "D"
   )
 
-  community <- new_community(
+  community <- pb_community(
 
     matrix = comm,
-    loaded = TRUE,
-    prepared = TRUE
+
+    sites = rownames(comm),
+
+    taxa = colnames(comm),
+
+    loaded = TRUE
 
   )
 

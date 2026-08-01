@@ -4,29 +4,18 @@
 \alias{compute_pd}
 \title{Compute Faith's Phylogenetic Diversity}
 \usage{
-compute_pd(pb)
+compute_pd(pb, overwrite = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{pb}{A PhyloBasins project.}
+\item{pb}{A validated \code{pb_project}.}
+
+\item{overwrite}{Logical. Recompute existing values?}
+
+\item{verbose}{Logical. Print progress messages?}
 }
 \value{
-Updated project with
-
-\code{pb$metrics$pd$values}
-
-containing one PD value per site.
+Updated \code{pb_project}.
 }
 \description{
-Calculates Faith's Phylogenetic Diversity (PD) for every site in the
-community matrix.
-}
-\details{
-PD is defined as the sum of branch lengths represented by the species
-occurring in each site.
-
-Requires a prepared project containing:
-\itemize{
-\item branch table
-\item site × branch matrix
-}
+Compute Faith's Phylogenetic Diversity
 }

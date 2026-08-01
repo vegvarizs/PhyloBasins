@@ -10,7 +10,7 @@
 # Internal constructor
 # -----------------------------------------------------------------------------
 
-new_tree_index <- function(
+pb_tree_index <- function(
 
   root = NA_integer_,
   parent = integer(),
@@ -46,9 +46,12 @@ new_tree_index <- function(
 
   )
 
+
   class(x) <- "pb_tree_index"
 
   validate_tree_index(x)
+
+  x
 
 }
 
@@ -252,3 +255,5 @@ summary.pb_tree_index <- function(object, ...) {
   invisible(object)
 
 }
+
+new_tree_index <- pb_tree_index

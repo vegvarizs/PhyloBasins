@@ -1,67 +1,64 @@
 # =============================================================================
-# PhyloBasins
-#
-# Compute Faith's Phylogenetic Diversity (PD)
+# Compute Faith's Phylogenetic Diversity
 # =============================================================================
 
 #' Compute Faith's Phylogenetic Diversity
 #'
-#' Calculates Faith's Phylogenetic Diversity (PD) for every site in the
-#' community matrix.
+#' @param pb
+#' A validated \code{pb_project}.
 #'
-#' PD is defined as the sum of branch lengths represented by the species
-#' occurring in each site.
+#' @param overwrite
+#' Logical. Recompute existing values?
 #'
-#' Requires a prepared project containing:
-#'
-#' * branch table
-#' * site × branch matrix
-#'
-#' @param pb A PhyloBasins project.
+#' @param verbose
+#' Logical. Print progress messages?
 #'
 #' @return
-#' Updated project with
-#'
-#' \code{pb$metrics$pd$values}
-#'
-#' containing one PD value per site.
+#' Updated \code{pb_project}.
 #'
 #' @export
-#'
 
-compute_pd <- function(pb) {
+compute_pd <- function(
+    pb,
+    overwrite = FALSE,
+    verbose = TRUE
+) {
 
   validate_pb_project(pb)
 
-  validate_tree(pb$tree)
-  validate_branches(pb$branches)
-  validate_community(pb$community)
-  validate_site_branch_matrix(pb$site_branch_matrix)
+  if (!pb$branches$prepared) {
+    stop(
+      "Branch table has not been prepared.",
+      call. = FALSE
+    )
+  }
+
+  if (!pb$site_branch_matrix$built) {
+    stop(
+      "Site-branch matrix has not been built.",
+      call. = FALSE
+    )
+  }
+
+  if (isTRUE(pb$metrics$pd$computed) && !overwrite) {
+
+    if (verbose)
+      message("PD has already been computed.")
+
+    return(pb)
+
+  }
 
   branch_table <- pb$branches$table
   SBM <- pb$site_branch_matrix$matrix
 
   branch_lengths <- branch_table$length
 
-if (!pb$branches$prepared) {
-  cli::cli_abort(
-    "Branch table has not been built. Run {.fn build_branch_table} first."
-  )
-}
-
-if (is.null(pb$site_branch_matrix)) {
-  cli::cli_abort(
-    "Site-branch matrix has not been built. Run {.fn build_site_branch_matrix} first."
-  )
-}
-
-branch_table <- pb$branches$table
-SBM <- pb$site_branch_matrix$matrix
-
   if (length(branch_lengths) != ncol(SBM)) {
 
-    cli::cli_abort(
-      "Branch table and site-branch matrix are inconsistent."
+    stop(
+      "Branch table and site-branch matrix are inconsistent.",
+      call. = FALSE
     )
 
   }
@@ -71,17 +68,35 @@ SBM <- pb$site_branch_matrix$matrix
   names(pd) <- pb$site_branch_matrix$sites
 
   pb$metrics$pd$values <- pd
-
   pb$metrics$pd$computed <- TRUE
 
-  pb$history <- c(
-    pb$history,
-    list(
-      list(
-        step = "compute_pd",
-        timestamp = timestamp()
+  if (verbose) {
+
+    message(
+
+      sprintf(
+        "Computed PD for %d sites.",
+        length(pd)
       )
+
     )
+
+  }
+
+  pb$history <- rbind(
+
+    pb$history,
+
+    data.frame(
+
+      timestamp = timestamp(),
+
+      action = "pd_computed",
+
+      stringsAsFactors = FALSE
+
+    )
+
   )
 
   pb

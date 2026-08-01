@@ -175,7 +175,7 @@ prepare_community <- function(pb) {
 
   )
 
-  pb$community$prepared <- TRUE
+  pb$community$built <- TRUE
 
   ## ------------------------------------------------------------
   ## history

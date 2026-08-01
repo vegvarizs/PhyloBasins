@@ -7,10 +7,17 @@
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Internal constructor
+# Constructor
 # -----------------------------------------------------------------------------
 
-new_branches <- function() {
+#' Create an empty branch object
+#'
+#' @return
+#' Empty object of class \code{pb_branches}.
+#'
+#' @export
+
+pb_branches <- function() {
 
   structure(
 
@@ -22,7 +29,15 @@ new_branches <- function() {
 
       metadata = list(),
 
-      cache = list()
+      cache = list(
+
+        descendant_species = NULL,
+
+        descendant_branches = NULL,
+
+        subtree_lengths = NULL
+
+      )
 
     ),
 
@@ -31,6 +46,7 @@ new_branches <- function() {
   )
 
 }
+
 # -----------------------------------------------------------------------------
 # Validator
 # -----------------------------------------------------------------------------
@@ -47,21 +63,30 @@ validate_branches <- function(x) {
   }
 
   required <- c(
+
     "table",
     "prepared",
     "metadata",
     "cache"
+
   )
+
   missing <- setdiff(required, names(x))
 
   if (length(missing) > 0) {
 
     stop(
+
       sprintf(
+
         "Missing branch component(s): %s",
+
         paste(missing, collapse = ", ")
+
       ),
+
       call. = FALSE
+
     )
 
   }
@@ -93,6 +118,40 @@ validate_branches <- function(x) {
 
   }
 
+  cache_required <- c(
+
+    "descendant_species",
+    "descendant_branches",
+    "subtree_lengths"
+
+  )
+
+  missing_cache <- setdiff(
+
+    cache_required,
+
+    names(x$cache)
+
+  )
+
+  if (length(missing_cache) > 0) {
+
+    stop(
+
+      sprintf(
+
+        "Missing cache component(s): %s",
+
+        paste(missing_cache, collapse = ", ")
+
+      ),
+
+      call. = FALSE
+
+    )
+
+  }
+
   invisible(x)
 
 }
@@ -102,6 +161,7 @@ validate_branches <- function(x) {
 # -----------------------------------------------------------------------------
 
 #' @export
+
 print.pb_branches <- function(x, ...) {
 
   cat("\n")
@@ -120,6 +180,20 @@ print.pb_branches <- function(x, ...) {
 
   }
 
+  cat(
+    "Descendant cache: ",
+    !is.null(x$cache$descendant_species),
+    "\n",
+    sep = ""
+  )
+
+  cat(
+    "Subtree cache: ",
+    !is.null(x$cache$subtree_lengths),
+    "\n",
+    sep = ""
+  )
+
   invisible(x)
 
 }
@@ -129,6 +203,7 @@ print.pb_branches <- function(x, ...) {
 # -----------------------------------------------------------------------------
 
 #' @export
+
 summary.pb_branches <- function(object, ...) {
 
   print(object)

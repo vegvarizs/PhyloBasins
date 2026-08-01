@@ -2,26 +2,21 @@
 % Please edit documentation in R/build_site_branch_matrix.R
 \name{build_site_branch_matrix}
 \alias{build_site_branch_matrix}
-\title{Build the site × branch matrix}
+\title{Build the site by branch matrix}
 \usage{
-build_site_branch_matrix(pb)
+build_site_branch_matrix(pb, overwrite = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{pb}{A PhyloBasins project.}
+\item{pb}{A validated \code{pb_project}.}
+
+\item{overwrite}{Logical. Rebuild an existing matrix?}
+
+\item{verbose}{Logical. Print progress messages?}
 }
 \value{
-Updated project containing
-\code{pb$site_branch_matrix}.
+Updated \code{pb_project}.
 }
 \description{
-Builds the sparse site × branch incidence matrix from a prepared
-PhyloBasins project.
-}
-\details{
-The project must already contain
-\itemize{
-\item a prepared phylogenetic tree,
-\item a prepared branch table,
-\item a prepared community matrix.
-}
+Builds the sparse site by branch incidence matrix used by all downstream
+phylogenetic diversity calculations.
 }

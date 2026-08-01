@@ -3,24 +3,70 @@
 #
 # Community object
 #
-# Defines the community (site × species) data structure used throughout
-# the package.
+# Defines the internal community matrix representation.
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Internal constructor
+# Constructor
 # -----------------------------------------------------------------------------
 
-new_community <- function(
+#' Create a community object
+#'
+#' Creates a \code{pb_community} object.
+#'
+#' @param matrix
+#' Community matrix.
+#'
+#' @param sites
+#' Character vector of site names.
+#'
+#' @param taxa
+#' Character vector of taxon names.
+#'
+#' @param file
+#' Source file.
+#'
+#' @param loaded
+#' Logical. Has the community matrix been loaded?
+#'
+#' @param validation
+#' Validation information.
+#'
+#' @param metadata
+#' Metadata associated with the community.
+#'
+#' @param cache
+#' Internal cache.
+#'
+#' @return
+#' A \code{pb_community} object.
+#'
+#' @export
+pb_community <- function(
 
   matrix = NULL,
+
   sites = character(),
-  species = character(),
-  metadata = list(),
+
+  taxa = character(),
+
+  file = NA_character_,
+
   loaded = FALSE,
-  prepared = FALSE,
-  validation = list(valid = FALSE),
-  cache = list()
+
+  validation = list(
+    valid = FALSE
+  ),
+
+  metadata = list(),
+
+  cache = list(
+
+    taxa_index = NULL,
+
+    site_index = NULL
+
+  )
 
 ) {
 
@@ -30,15 +76,15 @@ new_community <- function(
 
     sites = sites,
 
-    species = species,
+    taxa = taxa,
 
-    metadata = metadata,
+    file = file,
 
     loaded = loaded,
 
-    prepared = prepared,
-
     validation = validation,
+
+    metadata = metadata,
 
     cache = cache
 
@@ -47,6 +93,8 @@ new_community <- function(
   class(x) <- "pb_community"
 
   validate_community(x)
+
+  x
 
 }
 
@@ -59,7 +107,7 @@ validate_community <- function(x) {
   if (!inherits(x, "pb_community")) {
 
     stop(
-      "'x' must inherit from class 'pb_community'.",
+      "Object is not a pb_community.",
       call. = FALSE
     )
 
@@ -68,12 +116,19 @@ validate_community <- function(x) {
   required <- c(
 
     "matrix",
+
     "sites",
-    "species",
-    "metadata",
+
+    "taxa",
+
+    "file",
+
     "loaded",
-    "prepared",
+
     "validation",
+
+    "metadata",
+
     "cache"
 
   )
@@ -95,11 +150,10 @@ validate_community <- function(x) {
 
   }
 
-  if (!is.null(x$matrix) &&
-      !is.matrix(x$matrix)) {
+  if (!is.logical(x$loaded) || length(x$loaded) != 1) {
 
     stop(
-      "'matrix' must be a matrix or NULL.",
+      "'loaded' must be a single logical value.",
       call. = FALSE
     )
 
@@ -114,39 +168,19 @@ validate_community <- function(x) {
 
   }
 
-  if (!is.character(x$species)) {
+  if (!is.character(x$taxa)) {
 
     stop(
-      "'species' must be a character vector.",
+      "'taxa' must be a character vector.",
       call. = FALSE
     )
 
   }
 
-  if (!is.list(x$metadata)) {
+  if (!is.character(x$file) || length(x$file) != 1) {
 
     stop(
-      "'metadata' must be a list.",
-      call. = FALSE
-    )
-
-  }
-
-  if (!is.logical(x$loaded) ||
-      length(x$loaded) != 1) {
-
-    stop(
-      "'loaded' must be TRUE or FALSE.",
-      call. = FALSE
-    )
-
-  }
-
-  if (!is.logical(x$prepared) ||
-      length(x$prepared) != 1) {
-
-    stop(
-      "'prepared' must be TRUE or FALSE.",
+      "'file' must be a character string.",
       call. = FALSE
     )
 
@@ -161,6 +195,15 @@ validate_community <- function(x) {
 
   }
 
+  if (!is.list(x$metadata)) {
+
+    stop(
+      "'metadata' must be a list.",
+      call. = FALSE
+    )
+
+  }
+
   if (!is.list(x$cache)) {
 
     stop(
@@ -170,28 +213,58 @@ validate_community <- function(x) {
 
   }
 
+  required_cache <- c(
+
+    "taxa_index",
+
+    "site_index"
+
+  )
+
+  missing_cache <- setdiff(required_cache, names(x$cache))
+
+  if (length(missing_cache) > 0) {
+
+    stop(
+
+      sprintf(
+        "Missing cache component(s): %s",
+        paste(missing_cache, collapse = ", ")
+      ),
+
+      call. = FALSE
+
+    )
+
+  }
+
   invisible(x)
 
 }
 
 # -----------------------------------------------------------------------------
-# Print method
+# Print
 # -----------------------------------------------------------------------------
 
 #' @export
 print.pb_community <- function(x, ...) {
 
+  validate_community(x)
+
   cat("\n")
-  cat("PhyloBasins community object\n")
-  cat("----------------------------\n")
+  cat("PhyloBasins community\n")
+  cat("---------------------\n")
 
-  cat("Loaded:    ", x$loaded, "\n", sep = "")
-  cat("Prepared:  ", x$prepared, "\n", sep = "")
+  cat("Loaded: ", x$loaded, "\n", sep = "")
 
-  if (x$loaded && !is.null(x$matrix)) {
+  if (is.null(x$matrix)) {
 
-    cat("Sites:     ", nrow(x$matrix), "\n", sep = "")
-    cat("Species:   ", ncol(x$matrix), "\n", sep = "")
+    cat("Community matrix: <not available>\n")
+
+  } else {
+
+    cat("Sites: ", length(x$sites), "\n", sep = "")
+    cat("Taxa:  ", length(x$taxa), "\n", sep = "")
 
   }
 
@@ -211,3 +284,28 @@ summary.pb_community <- function(object, ...) {
   invisible(object)
 
 }
+
+# -----------------------------------------------------------------------------
+# Predicate
+# -----------------------------------------------------------------------------
+
+#' Test whether an object is a pb_community
+#'
+#' @param x
+#' An object.
+#'
+#' @return
+#' Logical.
+#'
+#' @export
+is.pb_community <- function(x) {
+
+  inherits(x, "pb_community")
+
+}
+
+# -----------------------------------------------------------------------------
+# Backward compatibility
+# -----------------------------------------------------------------------------
+
+new_community <- pb_community

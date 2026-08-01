@@ -4,10 +4,12 @@
 \alias{validate_tree_data}
 \title{Validate tree data}
 \usage{
-validate_tree_data(pb)
+validate_tree_data(pb, verbose = TRUE)
 }
 \arguments{
 \item{pb}{A \code{pb_project} object with a loaded tree.}
+
+\item{verbose}{Logical. Print progress messages. Default is \code{TRUE}.}
 }
 \value{
 Updated \code{pb_project}.

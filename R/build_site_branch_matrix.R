@@ -1,38 +1,138 @@
 # =============================================================================
-# Build Site × Branch Matrix
+# PhyloBasins
+#
+# Build Site by Branch Matrix
 # =============================================================================
 
-#' Build the site × branch matrix
+#' Build the site by branch matrix
 #'
-#' Builds the sparse site × branch incidence matrix from a prepared
-#' PhyloBasins project.
+#' Builds the sparse site by branch incidence matrix used by all downstream
+#' phylogenetic diversity calculations.
 #'
-#' The project must already contain
+#' @param pb
+#' A validated \code{pb_project}.
 #'
-#' * a prepared phylogenetic tree,
-#' * a prepared branch table,
-#' * a prepared community matrix.
+#' @param overwrite
+#' Logical. Rebuild an existing matrix?
 #'
-#' @param pb A PhyloBasins project.
+#' @param verbose
+#' Logical. Print progress messages?
 #'
 #' @return
-#' Updated project containing
-#' \code{pb$site_branch_matrix}.
+#' Updated \code{pb_project}.
 #'
 #' @export
-build_site_branch_matrix <- function(pb) {
+
+build_site_branch_matrix <- function(
+
+  pb,
+
+  overwrite = FALSE,
+
+  verbose = TRUE
+
+) {
 
   validate_pb_project(pb)
 
-  validate_tree(pb$tree)
-  validate_branches(pb$branches)
-  validate_community(pb$community)
+  if (!pb$tree$prepared) {
 
-  pb$site_branch_matrix <- reference_branch_engine(
+    stop(
 
-    tree      = pb$tree,
-    branches  = pb$branches,
+      "Tree has not been prepared.",
+
+      call. = FALSE
+
+    )
+
+  }
+
+  if (!pb$branches$prepared) {
+
+    stop(
+
+      "Branch table has not been prepared.",
+
+      call. = FALSE
+
+    )
+
+  }
+
+  if (!pb$community$loaded) {
+
+    stop(
+
+      "Community matrix has not been loaded.",
+
+      call. = FALSE
+
+    )
+
+  }
+
+  if (isTRUE(pb$site_branch_matrix$built) &&
+      !overwrite) {
+
+    if (verbose) {
+
+      message(
+
+        "Site-branch matrix already available."
+
+      )
+
+    }
+
+    return(pb)
+
+  }
+
+  sbm <- reference_branch_engine(
+
+    tree = pb$tree,
+
+    branches = pb$branches,
+
     community = pb$community
+
+  )
+
+  pb$site_branch_matrix <- sbm
+
+  pb$site_branch_matrix$built <- TRUE
+
+  if (verbose) {
+
+    message(
+
+      sprintf(
+
+        "Built site by branch matrix (%d sites by %d branches).",
+
+        nrow(sbm$matrix),
+
+        ncol(sbm$matrix)
+
+      )
+
+    )
+
+  }
+
+  pb$history <- rbind(
+
+    pb$history,
+
+    data.frame(
+
+      timestamp = timestamp(),
+
+      action = "site_branch_matrix_built",
+
+      stringsAsFactors = FALSE
+
+    )
 
   )
 

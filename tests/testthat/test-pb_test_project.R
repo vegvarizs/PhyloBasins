@@ -88,12 +88,20 @@ test_that("PD stage is valid", {
 
   pb <- pb_test_project("pd")
 
-  expect_valid_pb_project(pb)
+  expect_valid_tree(pb)
+  expect_valid_branches(pb)
+  expect_valid_site_branch_matrix(pb)
+  expect_valid_branch_ranges(pb)
+  expect_valid_metrics(pb)
 
   expect_true(pb$metrics$pd$computed)
 
   expect_true(
     is.numeric(pb$metrics$pd$values)
+  )
+
+  expect_false(
+    any(is.na(pb$metrics$pd$values))
   )
 
   expect_length(
@@ -107,12 +115,20 @@ test_that("PE stage is valid", {
 
   pb <- pb_test_project("pe")
 
-  expect_valid_pb_project(pb)
+  expect_valid_tree(pb)
+  expect_valid_branches(pb)
+  expect_valid_site_branch_matrix(pb)
+  expect_valid_branch_ranges(pb)
+  expect_valid_metrics(pb)
 
   expect_true(pb$metrics$pe$computed)
 
   expect_true(
     is.numeric(pb$metrics$pe$values)
+  )
+
+  expect_false(
+    any(is.na(pb$metrics$pe$values))
   )
 
   expect_length(
@@ -126,12 +142,20 @@ test_that("RPE stage is valid", {
 
   pb <- pb_test_project("rpe")
 
-  expect_valid_pb_project(pb)
+  expect_valid_tree(pb)
+  expect_valid_branches(pb)
+  expect_valid_site_branch_matrix(pb)
+  expect_valid_branch_ranges(pb)
+  expect_valid_metrics(pb)
 
   expect_true(pb$metrics$rpe$computed)
 
   expect_true(
     is.numeric(pb$metrics$rpe$values)
+  )
+
+  expect_false(
+    any(is.na(pb$metrics$rpe$values))
   )
 
   expect_length(

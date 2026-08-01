@@ -9,15 +9,43 @@
 # -----------------------------------------------------------------------------
 # Internal constructor
 # -----------------------------------------------------------------------------
-
-new_tree <- function(
+#' Create a phylogenetic tree object
+#'
+#' Creates an empty or initialized \code{pb_tree} object.
+#'
+#' @param phy
+#' A phylogenetic tree of class \code{"phylo"}, or \code{NULL}.
+#'
+#' @param file
+#' Path to the source tree file, or \code{NULL}.
+#'
+#' @param format
+#' Input tree format (for example \code{"newick"} or \code{"nexus"}).
+#'
+#' @param loaded
+#' Logical indicating whether a tree has been loaded.
+#'
+#' @param prepared
+#' Logical indicating whether the tree has been prepared for analysis.
+#'
+#' @param validation
+#' Validation information.
+#'
+#' @param index
+#' Cached tree indices used internally.
+#'
+#' @return
+#' A \code{pb_tree} object.
+#'
+#' @export
+pb_tree <- function(
     phy = NULL,
     file = NULL,
     format = NULL,
     loaded = FALSE,
     prepared = FALSE,
     validation = NULL,
-    index = new_tree_index()
+    index = pb_tree_index()
 ) {
 
   if (is.null(validation)) {
@@ -52,6 +80,8 @@ new_tree <- function(
   class(x) <- "pb_tree"
 
   validate_tree(x)
+
+  invisible(x)
 
 }
 
@@ -115,7 +145,6 @@ validate_tree <- function(x) {
   }
 
   invisible(x)
-
 }
 
 # -----------------------------------------------------------------------------
@@ -175,3 +204,5 @@ summary.pb_tree <- function(object, ...) {
   invisible(object)
 
 }
+
+new_tree <- pb_tree

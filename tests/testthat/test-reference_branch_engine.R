@@ -15,18 +15,25 @@ test_that("tree must be prepared", {
     prepared = FALSE
   )
 
-  branches <- new_branches()
+  branches <- pb_branches()
   branches$prepared <- TRUE
+
   branches$table <- data.frame(
     branch_id = character(),
-    descendant_species = I(list()),
     stringsAsFactors = FALSE
   )
 
-  community <- new_community(
-    matrix = matrix(logical(), nrow = 0, ncol = 0),
-    loaded = TRUE,
-    prepared = TRUE
+  branches$cache$descendant_species <- list()
+
+  community <- pb_community(
+    matrix = matrix(
+      FALSE,
+      nrow = 0,
+      ncol = 0
+    ),
+    sites = character(),
+    taxa = character(),
+    loaded = TRUE
   )
 
   expect_error(
@@ -35,7 +42,7 @@ test_that("tree must be prepared", {
       branches,
       community
     ),
-    "prepared"
+    "Tree must be prepared."
   )
 
 })
@@ -48,18 +55,25 @@ test_that("branch table must be prepared", {
     prepared = TRUE
   )
 
-  branches <- new_branches()
+  branches <- pb_branches()
   branches$prepared <- FALSE
+
   branches$table <- data.frame(
     branch_id = character(),
-    descendant_species = I(list()),
     stringsAsFactors = FALSE
   )
 
-  community <- new_community(
-    matrix = matrix(logical(), nrow = 0, ncol = 0),
-    loaded = TRUE,
-    prepared = TRUE
+  branches$cache$descendant_species <- list()
+
+  community <- pb_community(
+    matrix = matrix(
+      FALSE,
+      nrow = 0,
+      ncol = 0
+    ),
+    sites = character(),
+    taxa = character(),
+    loaded = TRUE
   )
 
   expect_error(
@@ -68,7 +82,7 @@ test_that("branch table must be prepared", {
       branches,
       community
     ),
-    "prepared"
+    "Branch table must be prepared."
   )
 
 })
@@ -81,18 +95,25 @@ test_that("community must be prepared", {
     prepared = TRUE
   )
 
-  branches <- new_branches()
+  branches <- pb_branches()
   branches$prepared <- TRUE
+
   branches$table <- data.frame(
     branch_id = character(),
-    descendant_species = I(list()),
     stringsAsFactors = FALSE
   )
 
-  community <- new_community(
-    matrix = matrix(logical(), nrow = 0, ncol = 0),
-    loaded = TRUE,
-    prepared = FALSE
+  branches$cache$descendant_species <- list()
+
+  community <- pb_community(
+    matrix = matrix(
+      FALSE,
+      nrow = 0,
+      ncol = 0
+    ),
+    sites = character(),
+    taxa = character(),
+    loaded = FALSE
   )
 
   expect_error(
@@ -101,7 +122,7 @@ test_that("community must be prepared", {
       branches,
       community
     ),
-    "prepared"
+    "Community must be prepared."
   )
 
 })

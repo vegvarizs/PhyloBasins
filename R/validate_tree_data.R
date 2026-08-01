@@ -17,6 +17,9 @@
 #' @param pb
 #' A \code{pb_project} object with a loaded tree.
 #'
+#' @param verbose
+#' Logical. Print progress messages. Default is \code{TRUE}.
+#'
 #' @return
 #' Updated \code{pb_project}.
 #'
@@ -28,7 +31,10 @@
 #' }
 #'
 #' @export
-validate_tree_data <- function(pb) {
+validate_tree_data <- function(
+    pb,
+    verbose = TRUE
+) {
 
   validate_pb_project(pb)
 
@@ -120,21 +126,52 @@ validate_tree_data <- function(pb) {
     !negative_edge_lengths &&
     (n_tips >= 2)
 
+  if (verbose) {
+
+    if (valid) {
+
+      message(
+        sprintf(
+          "Tree validation successful (%d tips, %d edges).",
+          n_tips,
+          n_edges
+        )
+      )
+
+    } else {
+
+      message("Tree validation failed.")
+
+    }
+
+  }
+
   ## -------------------------------------------------------------------------
   ## Store validation
   ## -------------------------------------------------------------------------
 
   pb$tree$validation <- list(
-    valid = FALSE,
-    rooted = NA,
-    binary = NA,
-    ultrametric = NA,
-    tips = NA_integer_,
-    edges = NA_integer_,
-    duplicate_labels = NA,
-    missing_edge_lengths = NA,
-    negative_edge_lengths = NA,
-    zero_edge_lengths = NA
+
+    valid = valid,
+
+    rooted = rooted,
+
+    binary = binary,
+
+    ultrametric = ultrametric,
+
+    tips = n_tips,
+
+    edges = n_edges,
+
+    duplicate_labels = duplicate_labels,
+
+    missing_edge_lengths = missing_edge_lengths,
+
+    negative_edge_lengths = negative_edge_lengths,
+
+    zero_edge_lengths = zero_edge_lengths
+
   )
 
   ## -------------------------------------------------------------------------

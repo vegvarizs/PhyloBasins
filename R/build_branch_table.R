@@ -3,45 +3,33 @@
 #
 # Build branch table
 #
-# Creates the canonical branch table used throughout the package.
+# Creates the branch table used by all downstream phylogenetic metrics.
 # =============================================================================
 
 #' Build branch table
 #'
-#' Converts the edge matrix of a prepared phylogenetic tree into the canonical
-#' branch table used throughout PhyloBasins.
-#'
-#' The resulting table contains only primary information that is directly
-#' available from the phylogenetic tree. Derived quantities (e.g. descendant
-#' counts, branch ranges or branch weights) are computed later by dedicated
-#' functions.
+#' Builds the internal branch representation from a prepared phylogenetic tree.
 #'
 #' @param pb
-#' A prepared \code{pb_project}.
+#' A validated \code{pb_project}.
+#'
+#' @param overwrite
+#' Logical. Rebuild an existing branch table?
+#'
+#' @param verbose
+#' Logical. Print progress messages?
 #'
 #' @return
 #' Updated \code{pb_project}.
 #'
-#' @examples
-#' \dontrun{
-#' pb <- pb_project()
-#' pb <- read_tree(pb, "tree.nwk")
-#' pb <- validate_tree_data(pb)
-#' pb <- prepare_tree(pb)
-#' pb <- build_branch_table(pb)
-#' }
-#'
 #' @export
-build_branch_table <- function(pb) {
+branches <- function(
+    pb,
+    overwrite = FALSE,
+    verbose = TRUE
+) {
 
   validate_pb_project(pb)
-
-  if (!inherits(pb$branches, "pb_branches")) {
-    stop(
-      "'pb$branches' is not a valid pb_branches object.",
-      call. = FALSE
-    )
-  }
 
   if (!pb$tree$prepared) {
     stop(
@@ -50,26 +38,46 @@ build_branch_table <- function(pb) {
     )
   }
 
+  if (isTRUE(pb$branches$prepared) && !overwrite) {
+
+    if (verbose) {
+      message("Branch table already available.")
+    }
+
+    return(pb)
+
+  }
+
   phy <- pb$tree$phy
-
   edge <- phy$edge
-  edge_length <- phy$edge.length
+  edge.length <- phy$edge.length
 
-  n_tips <- length(phy$tip.label)
+  if (is.null(edge.length)) {
+
+    edge.length <- rep(
+      1,
+      nrow(edge)
+    )
+
+  }
+
+  n_tips <- ape::Ntip(phy)
 
   parent <- edge[, 1]
-  child  <- edge[, 2]
+  child <- edge[, 2]
 
-  child_is_tip <- child <= n_tips
+  branch_label <- character(length(child))
 
-  root_node <- pb$tree$index$root
+  is_tip <- child <= n_tips
 
-  is_root_branch <- parent == root_node
+  branch_label[is_tip] <-
+    phy$tip.label[child[is_tip]]
 
-  tip_name <- rep(NA_character_, length(child))
-
-  tip_name[child_is_tip] <-
-    phy$tip.label[child[child_is_tip]]
+  branch_label[!is_tip] <-
+    paste0(
+      "Node",
+      child[!is_tip]
+    )
 
   branch_table <- data.frame(
 
@@ -79,17 +87,17 @@ build_branch_table <- function(pb) {
 
     child = child,
 
-    length = edge_length,
+    label = branch_label,
 
-    is_root_branch = is_root_branch,
+    length = edge.length,
 
-    child_is_tip = child_is_tip,
-
-    tip_name = tip_name,
+    is_tip = is_tip,
 
     stringsAsFactors = FALSE
 
   )
+
+  pb$branches <- pb_branches()
 
   pb$branches$table <- branch_table
 
@@ -98,8 +106,77 @@ build_branch_table <- function(pb) {
   pb$branches$metadata$n_branches <-
     nrow(branch_table)
 
-  pb$branches$metadata$total_length <-
-    sum(edge_length, na.rm = TRUE)
+  pb$branches$cache$tip_branches <-
+    which(is_tip)
+
+  pb$branches$cache$internal_branches <-
+    which(!is_tip)
+
+  # ---------------------------------------------------------------------------
+  # Descendant species cache
+  # ---------------------------------------------------------------------------
+
+  descendant_species <- vector(
+    "list",
+    nrow(branch_table)
+  )
+
+  children <- pb$tree$index$children
+
+  tip_nodes <- pb$tree$index$tip_nodes
+
+  collect_descendants <- function(node) {
+
+    if (node %in% tip_nodes) {
+      return(node)
+    }
+
+    idx <- match(
+      node,
+      pb$tree$index$internal_nodes
+    )
+
+    kids <- children[[idx]]
+
+    unlist(
+      lapply(
+        kids,
+        collect_descendants
+      ),
+      use.names = FALSE
+    )
+
+  }
+
+  for (i in seq_len(nrow(branch_table))) {
+
+    node <- branch_table$child[i]
+
+    tips <- collect_descendants(node)
+
+    descendant_species[[i]] <-
+      phy$tip.label[tips]
+
+  }
+
+  pb$branches$cache$descendant_species <-
+    descendant_species
+
+  if (verbose) {
+
+    message(
+
+      sprintf(
+
+        "Built branch table (%d branches).",
+
+        nrow(branch_table)
+
+      )
+
+    )
+
+  }
 
   pb$history <- rbind(
 

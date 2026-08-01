@@ -1,76 +1,87 @@
 # =============================================================================
-# Compute phylogenetic endemism
+# PhyloBasins
+#
+# Compute Phylogenetic Endemism
 # =============================================================================
 
-#' Compute phylogenetic endemism
+#' Compute Phylogenetic Endemism
 #'
-#' Computes phylogenetic endemism (PE) for every site.
+#' Computes Faith's Phylogenetic Endemism (PE) for every site.
 #'
 #' @param pb
-#' A prepared PhyloBasins project.
+#' A \code{pb_project} object.
+#'
+#' @param overwrite
+#' Logical. Overwrite an existing result?
+#'
+#' @param verbose
+#' Logical. Print progress messages?
 #'
 #' @return
-#' Updated project.
+#' Updated \code{pb_project}.
 #'
 #' @export
 
-compute_pe <- function(pb) {
+compute_pe <- function(
+    pb,
+    overwrite = FALSE,
+    verbose = TRUE
+) {
 
   validate_pb_project(pb)
 
-  validate_site_branch_matrix(
-    pb$site_branch_matrix
-  )
-
-  branch_table <- pb$branches$table
-
-  if (is.null(branch_table$length)) {
-
+  if (!pb$site_branch_matrix$built)
     stop(
-      "Branch lengths are missing.",
+      "Site-branch matrix has not been built.",
       call. = FALSE
     )
 
-  }
-
-  if (is.null(branch_table$range_size)) {
-
+  if (!pb$branch_ranges$computed)
     stop(
       "Branch ranges have not been computed.",
       call. = FALSE
     )
 
-  }
-
-  if (any(branch_table$range_size <= 0)) {
-
+  if (isTRUE(pb$metrics$pe$computed) && !overwrite)
     stop(
-      "Branch range sizes must be positive.",
+      "PE has already been computed.",
       call. = FALSE
     )
 
-  }
+  if (verbose)
+    message("Computing phylogenetic endemism...")
 
-  weights <-
-    branch_table$length /
-    branch_table$range_size
+  pe <- compute_pe_engine(
 
-  M <- pb$site_branch_matrix$matrix
+    site_branch_matrix =
+      pb$site_branch_matrix$matrix,
 
-  PE <- as.numeric(M %*% weights)
+    weighted_length =
+      pb$branch_ranges$table$weighted_length
 
-  pb$metrics$pe$values <-
+  )
+
+  pb$metrics$pe$values <- pe
+  pb$metrics$pe$computed <- TRUE
+
+  pb$history <- rbind(
+
+    pb$history,
+
     data.frame(
 
-      site = rownames(M),
+      timestamp = timestamp(),
 
-      pe = PE,
+      action = "pe_computed",
 
       stringsAsFactors = FALSE
 
     )
 
-  pb$metrics$pe$computed <- TRUE
+  )
+
+  if (verbose)
+    message("Done.")
 
   pb
 

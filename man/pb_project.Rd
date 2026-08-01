@@ -7,16 +7,8 @@
 pb_project()
 }
 \value{
-An object of class \code{"pb_project"}.
+A \code{pb_project} object.
 }
 \description{
 Creates an empty PhyloBasins project object.
-}
-\details{
-The returned object stores all data, metadata and intermediate
-results generated during a PhyloBasins workflow.
-}
-\examples{
-pb <- pb_project()
-
 }

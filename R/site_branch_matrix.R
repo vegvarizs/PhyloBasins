@@ -5,53 +5,51 @@
 #
 # Defines the S3 class used to store site × branch incidence matrices.
 # =============================================================================
-
-# -----------------------------------------------------------------------------
-# Constructor
-# -----------------------------------------------------------------------------
-
 #' Create a site-branch matrix object
 #'
-#' Internal constructor.
+#' Creates a \code{pb_site_branch_matrix} object.
 #'
 #' @param matrix
-#' Sparse site × branch matrix.
+#' Site-by-branch matrix.
 #'
 #' @param sites
 #' Character vector of site names.
 #'
 #' @param branches
-#' Integer vector of branch identifiers.
+#' Character vector of branch identifiers.
 #'
 #' @param sparse
-#' Logical.
+#' Logical indicating whether a sparse matrix representation is used.
 #'
 #' @param built
-#' Logical.
+#' Logical indicating whether the matrix has been constructed.
 #'
 #' @param validation
 #' Validation information.
 #'
 #' @param cache
-#' Internal cache.
+#' Internal cache used during downstream computations.
 #'
 #' @return
 #' A \code{pb_site_branch_matrix} object.
 #'
-#' @keywords internal
-new_site_branch_matrix <- function(
+#' @export
+pb_site_branch_matrix <- function(
     matrix = NULL,
     sites = character(),
     branches = character(),
     sparse = TRUE,
     built = FALSE,
-    validation = list(),
+    validation = list(
+      valid = FALSE,
+      reference = FALSE
+    ),
     cache = list(
       branch_index = NULL,
       site_index = NULL,
       transpose = NULL
     )
-){
+) {
 
   x <- list(
 
@@ -76,7 +74,6 @@ new_site_branch_matrix <- function(
   x
 
 }
-
 # -----------------------------------------------------------------------------
 # Validation
 # -----------------------------------------------------------------------------

@@ -33,6 +33,10 @@ test_that("reference engine reproduces known small example", {
     prepared = TRUE
   )
 
+  # ---------------------------------------------------------------------------
+  # Branch table
+  # ---------------------------------------------------------------------------
+
   branch_table <- data.frame(
 
     branch_id = c(
@@ -61,9 +65,18 @@ test_that("reference engine reproduces known small example", {
 
   )
 
-  branches <- new_branches()
+  branches <- pb_branches()
+
   branches$table <- branch_table
   branches$prepared <- TRUE
+
+  # Current Branch Engine stores descendants in the cache
+  branches$cache$descendant_species <-
+    branch_table$descendant_species
+
+  # ---------------------------------------------------------------------------
+  # Community matrix
+  # ---------------------------------------------------------------------------
 
   comm <- matrix(
 
@@ -95,21 +108,35 @@ test_that("reference engine reproduces known small example", {
     "D"
   )
 
-  community <- new_community(
+  community <- pb_community(
 
     matrix = comm,
-    loaded = TRUE,
-    prepared = TRUE
+
+    sites = rownames(comm),
+
+    taxa = colnames(comm),
+
+    loaded = TRUE
 
   )
+
+  # ---------------------------------------------------------------------------
+  # Build reference matrix
+  # ---------------------------------------------------------------------------
 
   sb <- reference_branch_engine(
 
     tree,
+
     branches,
+
     community
 
   )
+
+  # ---------------------------------------------------------------------------
+  # Expected result
+  # ---------------------------------------------------------------------------
 
   expected <- matrix(
 

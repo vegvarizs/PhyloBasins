@@ -2,24 +2,21 @@
 % Please edit documentation in R/compute_branch_ranges.R
 \name{compute_branch_ranges}
 \alias{compute_branch_ranges}
-\title{Compute branch ranges}
+\title{Compute branch geographic ranges}
 \usage{
-compute_branch_ranges(pb)
+compute_branch_ranges(pb, overwrite = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{pb}{A PhyloBasins project.}
+\item{pb}{A \code{pb_project} object.}
+
+\item{overwrite}{Logical. Overwrite an existing result?}
+
+\item{verbose}{Logical. Print progress messages?}
 }
 \value{
-Updated project with
-
-\code{pb$metrics$branch_ranges$values}
-
-containing one range value per branch.
+Updated \code{pb_project}.
 }
 \description{
-Calculates the geographic range of every branch as the number of sites
-in which the branch is represented.
-}
-\details{
-Requires a prepared site × branch matrix.
+Calculates the geographic range of every branch from the site-by-branch
+matrix.
 }

@@ -1,91 +1,149 @@
 # =============================================================================
 # PhyloBasins
 #
-# Read community matrix
+# Community import
 #
-# Reads a community (site × species) matrix into a pb_project.
+# Read a community matrix from file.
 # =============================================================================
 
-#' Read a community matrix
+#' Read community matrix
 #'
-#' Reads a site × species community matrix from a matrix,
-#' data.frame or csv file.
+#' Imports a community (presence/absence or abundance) matrix and stores it in
+#' a \code{pb_project}.
+#'
+#' The first column must contain site names.
+#' Remaining columns correspond to taxa.
 #'
 #' @param pb
-#' A \code{pb_project}.
+#' A validated \code{pb_project}.
 #'
-#' @param x
-#' Community matrix. May be
+#' @param file
+#' Path to the community matrix.
 #'
-#' * a matrix
-#' * a data.frame
-#' * a character string giving the path to a csv file.
-#'
-#' @param row_names
-#' Should the first column be interpreted as site names?
+#' @param verbose
+#' Logical. Should progress messages be printed?
 #'
 #' @return
 #' Updated \code{pb_project}.
 #'
 #' @export
+
 read_community <- function(
     pb,
-    x,
-    row_names = TRUE
+    file,
+    verbose = TRUE
 ) {
 
   validate_pb_project(pb)
 
-  ## ------------------------------------------------------------
-  ## read object
-  ## ------------------------------------------------------------
-
-  if (is.character(x) && length(x) == 1) {
-
-    comm <- utils::read.csv(
-
-      x,
-
-      row.names = if (row_names) 1 else NULL,
-
-      check.names = FALSE
-
-    )
-
-    comm <- as.matrix(comm)
-
-  } else if (is.data.frame(x)) {
-
-    comm <- as.matrix(x)
-
-  } else if (is.matrix(x)) {
-
-    comm <- x
-
-  } else {
+  if (!is.character(file) || length(file) != 1) {
 
     stop(
-      "'x' must be a matrix, data.frame or csv filename.",
+      "'file' must be a character string.",
       call. = FALSE
     )
 
   }
 
-  ## ------------------------------------------------------------
-  ## store
-  ## ------------------------------------------------------------
+  if (!file.exists(file)) {
 
-  pb$community$matrix <- comm
+    stop(
+      sprintf(
+        "Community file not found:\n%s",
+        file
+      ),
+      call. = FALSE
+    )
 
-  pb$community$sites <- rownames(comm)
+  }
 
-  pb$community$species <- colnames(comm)
+  ext <- tolower(tools::file_ext(file))
 
-  pb$community$loaded <- TRUE
+  dat <- switch(
 
-  pb$community$prepared <- FALSE
+    ext,
 
-  pb$community$validation <- list(valid = FALSE)
+    csv = utils::read.csv(
+      file,
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    ),
+
+    txt = utils::read.table(
+      file,
+      header = TRUE,
+      sep = "\t",
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    ),
+
+    tsv = utils::read.table(
+      file,
+      header = TRUE,
+      sep = "\t",
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    ),
+
+    stop(
+      sprintf(
+        "Unsupported community format: '.%s'",
+        ext
+      ),
+      call. = FALSE
+    )
+
+  )
+
+  if (ncol(dat) < 2) {
+
+    stop(
+      "Community matrix must contain at least one species column.",
+      call. = FALSE
+    )
+
+  }
+
+  rownames(dat) <- dat[[1]]
+
+  mat <- as.matrix(dat[, -1, drop = FALSE])
+
+  storage.mode(mat) <- "numeric"
+
+  pb$community <- pb_community(
+
+    matrix = mat,
+
+    sites = rownames(mat),
+
+    taxa = colnames(mat),
+
+    file = normalizePath(
+      file,
+      winslash = "/",
+      mustWork = TRUE
+    ),
+
+    loaded = TRUE
+
+  )
+
+  if (verbose) {
+
+    message(
+
+      sprintf(
+
+        "Loaded community matrix (%d sites by %d taxa).",
+
+        nrow(mat),
+        ncol(mat)
+
+      )
+
+    )
+
+  }
 
   pb$history <- rbind(
 
