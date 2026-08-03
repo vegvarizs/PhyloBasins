@@ -105,7 +105,7 @@ validate_tree_data <- function(
 
   rooted <- ape::is.rooted(phy)
 
-  binary <- ape::is.binary.tree(phy)
+  binary <- ape::is.binary(phy)
 
   ultrametric <-
     tryCatch(

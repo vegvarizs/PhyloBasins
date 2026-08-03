@@ -73,3 +73,9 @@ timestamp <- function() {
 
   Sys.time()
 }
+
+# =============================================================================
+# Global variable declarations for R CMD check
+# =============================================================================
+
+utils::globalVariables(".data")

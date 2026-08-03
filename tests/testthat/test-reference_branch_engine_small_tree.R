@@ -7,7 +7,6 @@
 # a manually constructed four-species tree with a known solution.
 # =============================================================================
 
-library(ape)
 library(Matrix)
 
 test_that("reference engine reproduces known small example", {
@@ -24,8 +23,11 @@ test_that("reference engine reproduces known small example", {
   #                  C    D
   # ---------------------------------------------------------------------------
 
-  phy <- read.tree(text = "(A,(B,(C,D)));")
-  phy <- reorder.phylo(phy, "postorder")
+  phy <- ape::read.tree(
+    text = "(A,(B,(C,D)));"
+  )
+
+  phy <- ape::reorder.phylo(phy, "postorder")
 
   tree <- new_tree(
     phy = phy,

@@ -4,7 +4,6 @@
 # Regression test for compute_pd()
 # =============================================================================
 
-library(ape)
 library(Matrix)
 
 test_that("compute_pd reproduces known PD values", {
@@ -13,8 +12,10 @@ test_that("compute_pd reproduces known PD values", {
   # Reference tree
   # ---------------------------------------------------------------------------
 
-  phy <- read.tree(text = "(A,(B,(C,D)));")
-  phy <- reorder.phylo(phy, "postorder")
+  phy <- ape::read.tree(
+    text = "(A,(B,(C,D)));"
+  )
+  phy <- ape::reorder.phylo(phy, "postorder")
 
   tree <- new_tree(
     phy = phy,
