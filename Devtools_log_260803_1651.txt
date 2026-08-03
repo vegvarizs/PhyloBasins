@@ -1,208 +1,0 @@
-══ Documenting ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-══ Building ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-Setting env vars:
-• CFLAGS    : -Wall -pedantic
-• CXXFLAGS  : -Wall -pedantic
-• CXX11FLAGS: -Wall -pedantic
-• CXX14FLAGS: -Wall -pedantic
-• CXX17FLAGS: -Wall -pedantic
-• CXX20FLAGS: -Wall -pedantic
-── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-     checking for file ‘/media/zsolt/Zsolt/Kutatás/DKI/KonzÖkolKCS/BalkanFishes/PhyloBasins/DESCRIPTION’ ...  ✔  checking for file ‘/media/zsolt/Zsolt/Kutatás/DKI/KonzÖkolKCS/BalkanFishes/PhyloBasins/DESCRIPTION’
-  ─  preparing ‘PhyloBasins’:
-   checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-  ─  installing the package (it is needed to build vignettes)
-     creating vignettes ...  ✔  creating vignettes (1.8s)
-  ─  checking for LF line-endings in source and make files and shell scripts (500ms)
-  ─  checking for empty or unneeded directories
-   Removed empty directory ‘PhyloBasins/inst/validation/figures’
-   Removed empty directory ‘PhyloBasins/inst/validation/output’
-   Removed empty directory ‘PhyloBasins/inst/validation/tree’
-  ─  building ‘PhyloBasins_0.0.0.9000.tar.gz’
-     
-══ Checking ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-Setting env vars:
-• _R_CHECK_CRAN_INCOMING_USE_ASPELL_           : TRUE
-• _R_CHECK_CRAN_INCOMING_REMOTE_               : FALSE
-• _R_CHECK_CRAN_INCOMING_                      : FALSE
-• _R_CHECK_FORCE_SUGGESTS_                     : FALSE
-• _R_CHECK_PACKAGES_USED_IGNORE_UNUSED_IMPORTS_: FALSE
-• NOT_CRAN                                     : true
-── R CMD check ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  ─  using log directory ‘/tmp/Rtmp3HgBSF/file27424daa9965/PhyloBasins.Rcheck’
-─  using R version 4.6.1 (2026-06-24)
-─  using platform: x86_64-pc-linux-gnu
-─  R was compiled by
--         x86_64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
-       GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
-─  running under: Ubuntu 24.04.4 LTS
-─  using session charset: UTF-8
-─  current time: 2026-08-03 14:51:40 UTC
-\  ─  using options ‘--no-manual --as-cran’
-|  ✔  checking for file ‘PhyloBasins/DESCRIPTION’
-─  this is package ‘PhyloBasins’ version ‘0.0.0.9000’
-─  package encoding: UTF-8
-   checking package namespace information .../  ✔  checking package namespace information
-   checking package dependencies ...-\|/  ✔  checking package dependencies (896ms)
-✔  checking if this is a source package
-✔  checking if there is a namespace
-   checking for executable files ...-  ✔  checking for executable files
-✔  checking for hidden files and directories
-✔  checking for portable file names
-✔  checking for sufficient/correct file permissions
-   checking whether package ‘PhyloBasins’ can be installed ...\|/-\|  ✔  checking whether package ‘PhyloBasins’ can be installed (1.2s)
-   checking installed package size .../  ✔  checking installed package size
--  ✔  checking package directory
-   checking for future file timestamps ...\  ✔  checking for future file timestamps
-✔  checking ‘build’ directory
-   checking DESCRIPTION meta-information ...|  ✔  checking DESCRIPTION meta-information
-N  checking top-level files
-   Non-standard files/directories found at top level:
-     ‘Devtools_log_260803_1625.txt’ ‘Devtools_log_260803_1627.txt’
-     ‘Devtools_log_260803_1635.txt’ ‘Devtools_log_260803_1644.txt’
-     ‘Devtools_log_260803_1651.txt’ ‘dev’
-✔  checking for left-over files
-   checking index information .../  ✔  checking index information
-   checking package subdirectories ...-\  ✔  checking package subdirectories (440ms)
-   checking code files for non-ASCII characters ...|  ✔  checking code files for non-ASCII characters
-   checking R files for syntax errors .../  ✔  checking R files for syntax errors
-   checking whether the package can be loaded ...-  ✔  checking whether the package can be loaded
-   checking whether the package can be loaded with stated dependencies ...\  ✔  checking whether the package can be loaded with stated dependencies
-   checking whether the package can be unloaded cleanly ...|  ✔  checking whether the package can be unloaded cleanly
-   checking whether the namespace can be loaded with stated dependencies .../  ✔  checking whether the namespace can be loaded with stated dependencies
-   checking whether the namespace can be unloaded cleanly ...-  ✔  checking whether the namespace can be unloaded cleanly
-   checking loading without being on the library search path ...\  ✔  checking loading without being on the library search path
-|     checking dependencies in R code .../-\|/  N  checking dependencies in R code (1.2s)
-   Namespaces in Imports field not imported from:
-     ‘cli’ ‘methods’ ‘sf’ ‘stats’ ‘viridis’
-     All declared Imports should be used.
-   checking S3 generic/method consistency ...-  ✔  checking S3 generic/method consistency
-   checking replacement functions ...\  ✔  checking replacement functions
-   checking foreign function calls ...|  ✔  checking foreign function calls
-   checking R code for possible problems .../-\|/-\|/-\|  ✔  checking R code for possible problems (2.4s)
-   checking Rd files .../-  ✔  checking Rd files
-   checking Rd metadata ...\  ✔  checking Rd metadata
-   checking Rd line widths ...|  ✔  checking Rd line widths
-   checking Rd cross-references .../  ✔  checking Rd cross-references
-   checking for missing documentation entries ...-  ✔  checking for missing documentation entries
-   checking for code/documentation mismatches ...\|  ✔  checking for code/documentation mismatches
-   checking Rd \usage sections .../-  ✔  checking Rd \usage sections
-   checking Rd contents ...\  ✔  checking Rd contents
-   checking for unstated dependencies in examples ...|  ✔  checking for unstated dependencies in examples
-   checking contents of ‘data’ directory .../  ✔  checking contents of ‘data’ directory
-   checking data for non-ASCII characters ...-  ✔  checking data for non-ASCII characters
-✔  checking LazyData
-   checking data for ASCII and uncompressed saves ...\  ✔  checking data for ASCII and uncompressed saves
-|     checking installed files from ‘inst/doc’ .../-  ✔  checking installed files from ‘inst/doc’
-   checking files in ‘vignettes’ ...\|  ✔  checking files in ‘vignettes’
-/-     checking examples ...\|  ✔  checking examples (742ms)
-   checking for unstated dependencies in ‘tests’ .../  ✔  checking for unstated dependencies in ‘tests’
-   checking tests ...-  ─  checking tests
-   Running ‘testthat.R’\|/-\|/-\  ─  Running ‘testthat.R’ (2s)
-E  Some test files failed
-   Running the tests in ‘tests/testthat.R’ failed.
-   Last 13 lines of output:
-     [ FAIL 2 | WARN 0 | SKIP 1 | PASS 244 ]
-     
-     ══ Skipped tests (1) ═══════════════════════════════════════════════════════════
-     • empty test (1):
-     
-     ══ Failed tests ════════════════════════════════════════════════════════════════
-     ── Error ('test-compute_pd.R:18:3'): compute_pd reproduces known PD values ─────
-     Error in `reorder.phylo(phy, "postorder")`: could not find function "reorder.phylo"
-     ── Error ('test-reference_branch_engine_small_tree.R:30:3'): reference engine reproduces known small example ──
-     Error in `reorder.phylo(phy, "postorder")`: could not find function "reorder.phylo"
-     
-     [ FAIL 2 | WARN 0 | SKIP 1 | PASS 244 ]
-     Error:
-     ! Test failures.
-     Execution halted
-|     checking for unstated dependencies in vignettes .../-  ✔  checking for unstated dependencies in vignettes (345ms)
-   checking package vignettes ...\  ✔  checking package vignettes
-   checking re-building of vignette outputs ...|/-\  ✔  checking re-building of vignette outputs (762ms)
-   checking for non-standard things in the check directory ...|  ✔  checking for non-standard things in the check directory
-✔  checking for detritus in the temp directory
-   
-   See
-     ‘/tmp/Rtmp3HgBSF/file27424daa9965/PhyloBasins.Rcheck/00check.log’
-   for details.
-   
-/-\      
-── R CMD check results ──────────────────────────────────────────────────────────────────────────────────────────────── PhyloBasins 0.0.0.9000 ────
-Duration: 14.6s
-
-❯ checking tests ...
-  See below...
-
-❯ checking top-level files ... NOTE
-  Non-standard files/directories found at top level:
-    ‘Devtools_log_260803_1625.txt’ ‘Devtools_log_260803_1627.txt’
-    ‘Devtools_log_260803_1635.txt’ ‘Devtools_log_260803_1644.txt’
-    ‘Devtools_log_260803_1651.txt’ ‘dev’
-
-❯ checking dependencies in R code ... NOTE
-  Namespaces in Imports field not imported from:
-    ‘cli’ ‘methods’ ‘sf’ ‘stats’ ‘viridis’
-    All declared Imports should be used.
-
-── Test failures ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── testthat ────
-
-> # This file is part of the standard setup for testthat.
-> # It is recommended that you do not modify it.
-> #
-> # Where should you do additional test configuration?
-> # Learn more about the roles of various files in:
-> # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview
-> # * https://testthat.r-lib.org/articles/special-files.html
-> 
-> library(testthat)
-> library(PhyloBasins)
-
-Attaching package: 'PhyloBasins'
-
-The following object is masked from 'package:base':
-
-    %||%
-
-> 
-> test_check("PhyloBasins")
-Computing branch ranges...
-Done.
-Computed PD for 4 sites.
-Computing phylogenetic endemism...
-Done.
-Computing relative phylogenetic endemism...
-Done.
-All implemented metrics have been computed.
-Saving _problems/test-compute_pd-18.R
-Computing relative phylogenetic endemism...
-Done.
-Saving _problems/test-reference_branch_engine_small_tree-30.R
-Built site by branch matrix (4 sites by 10 branches).
-Computing branch ranges...
-Done.
-Computed PD for 4 sites.
-Computing phylogenetic endemism...
-Done.
-Computing relative phylogenetic endemism...
-Done.
-All implemented metrics have been computed.
-PhyloBasins pipeline completed successfully.
-[ FAIL 2 | WARN 0 | SKIP 1 | PASS 244 ]
-
-══ Skipped tests (1) ═══════════════════════════════════════════════════════════
-• empty test (1):
-
-══ Failed tests ════════════════════════════════════════════════════════════════
-── Error ('test-compute_pd.R:18:3'): compute_pd reproduces known PD values ─────
-Error in `reorder.phylo(phy, "postorder")`: could not find function "reorder.phylo"
-── Error ('test-reference_branch_engine_small_tree.R:30:3'): reference engine reproduces known small example ──
-Error in `reorder.phylo(phy, "postorder")`: could not find function "reorder.phylo"
-
-[ FAIL 2 | WARN 0 | SKIP 1 | PASS 244 ]
-Error:
-! Test failures.
-Execution halted
-
-1 error ✖ | 0 warnings ✔ | 2 notes ✖

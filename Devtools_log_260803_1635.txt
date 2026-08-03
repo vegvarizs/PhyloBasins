@@ -1,696 +1,0 @@
-✔ | F W  S  OK | Context
-⠏ |          0 | build_site_branch_matrix                                                                                                          ✔ |      1   0 | build_site_branch_matrix
-⠏ |          0 | compute_all_metrics                                                                                                               ⠧ |          8 | compute_all_metrics                                                                                                               ⠼ |         15 | compute_all_metrics                                                                                                               ✔ |         17 | compute_all_metrics
-⠏ |          0 | compute_branch_ranges                                                                                                             ✔ |          5 | compute_branch_ranges
-⠏ |          0 | compute_pd                                                                                                                        List of 7
- $ matrix    :Formal class 'lgCMatrix' [package "Matrix"] with 6 slots
-  .. ..@ i       : int [1:14] 0 1 2 3 1 2 3 2 3 0 ...
-  .. ..@ p       : int [1:8] 0 4 7 9 10 12 13 14
-  .. ..@ Dim     : int [1:2] 4 7
-  .. ..@ Dimnames:List of 2
-  .. .. ..$ : chr [1:4] "S1" "S2" "S3" "S4"
-  .. .. ..$ : chr [1:7] "Root" "N1" "N2" "A" ...
-  .. ..@ x       : logi [1:14] TRUE TRUE TRUE TRUE TRUE TRUE ...
-  .. ..@ factors : list()
- $ sites     : chr [1:4] "S1" "S2" "S3" "S4"
- $ branches  : chr [1:7] "Root" "N1" "N2" "A" ...
- $ sparse    : logi TRUE
- $ built     : logi TRUE
- $ validation:List of 2
-  ..$ valid    : logi TRUE
-  ..$ reference: logi TRUE
- $ cache     :List of 3
-  ..$ branch_index: NULL
-  ..$ site_index  : NULL
-  ..$ transpose   : NULL
- - attr(*, "class")= chr "pb_site_branch_matrix"
-Formal class 'lgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:14] 0 1 2 3 1 2 3 2 3 0 ...
-  ..@ p       : int [1:8] 0 4 7 9 10 12 13 14
-  ..@ Dim     : int [1:2] 4 7
-  ..@ Dimnames:List of 2
-  .. ..$ : chr [1:4] "S1" "S2" "S3" "S4"
-  .. ..$ : chr [1:7] "Root" "N1" "N2" "A" ...
-  ..@ x       : logi [1:14] TRUE TRUE TRUE TRUE TRUE TRUE ...
-  ..@ factors : list()
-✔ |          3 | compute_pd
-⠏ |          0 | compute_pe_engine                                                                                                                 ✔ |         11 | compute_pe_engine
-⠏ |          0 | compute_pe                                                                                                                        ✔ |          1 | compute_pe
-⠏ |          0 | compute_rpe                                                                                                                       ⠧ |          8 | compute_rpe                                                                                                                       ⠙ |         12 | compute_rpe                                                                                                                       ✔ |         13 | compute_rpe
-⠏ |          0 | pb_project                                                                                                                        ⠇ |         19 | pb_project                                                                                                                        ⠸ |         44 | pb_project                                                                                                                        ⠋ |         61 | pb_project                                                                                                                        ✔ |         66 | pb_project
-⠏ |          0 | pb_test_project                                                                                                                   ⠏ |         30 | pb_test_project                                                                                                                   ⠋ |         51 | pb_test_project                                                                                                                   ⠦ |         87 | pb_test_project                                                                                                                   ✔ |        111 | pb_test_project
-⠏ |          0 | reference_branch_engine_small_tree                                                                                                ✔ |          7 | reference_branch_engine_small_tree
-⠏ |          0 | reference_branch_engine                                                                                                           ✔ |          3 | reference_branch_engine
-⠏ |          0 | run_pipeline                                                                                                                      ⠋ |         11 | run_pipeline                                                                                                                      ✔ |         17 | run_pipeline
-
-══ Results ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-Duration: 1.7 s
-
-── Skipped tests (1) ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-• empty test (1):
-
-[ FAIL 0 | WARN 0 | SKIP 1 | PASS 254 ]
-══ Documenting ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-══ Building ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-Setting env vars:
-• CFLAGS    : -Wall -pedantic
-• CXXFLAGS  : -Wall -pedantic
-• CXX11FLAGS: -Wall -pedantic
-• CXX14FLAGS: -Wall -pedantic
-• CXX17FLAGS: -Wall -pedantic
-• CXX20FLAGS: -Wall -pedantic
-── R CMD build ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  ✔  checking for file ‘/media/zsolt/Zsolt/Kutatás/DKI/KonzÖkolKCS/BalkanFishes/PhyloBasins/DESCRIPTION’
-  ─  preparing ‘PhyloBasins’:
-   checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
-  ─  installing the package (it is needed to build vignettes)
-     creating vignettes ...  ✔  creating vignettes (1.9s)
-  ─  checking for LF line-endings in source and make files and shell scripts (500ms)
-  ─  checking for empty or unneeded directories
-   Removed empty directory ‘PhyloBasins/inst/validation/figures’
-   Removed empty directory ‘PhyloBasins/inst/validation/output’
-   Removed empty directory ‘PhyloBasins/inst/validation/tree’
-  ─  building ‘PhyloBasins_0.0.0.9000.tar.gz’
-     
-══ Checking ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-Setting env vars:
-• _R_CHECK_CRAN_INCOMING_USE_ASPELL_           : TRUE
-• _R_CHECK_CRAN_INCOMING_REMOTE_               : FALSE
-• _R_CHECK_CRAN_INCOMING_                      : FALSE
-• _R_CHECK_FORCE_SUGGESTS_                     : FALSE
-• _R_CHECK_PACKAGES_USED_IGNORE_UNUSED_IMPORTS_: FALSE
-• NOT_CRAN                                     : true
-── R CMD check ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  ─  using log directory ‘/tmp/Rtmp3HgBSF/file2742166aad4b/PhyloBasins.Rcheck’
-─  using R version 4.6.1 (2026-06-24)
-─  using platform: x86_64-pc-linux-gnu
-─  R was compiled by
-       x86_64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
-       GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
-─  running under: Ubuntu 24.04.4 LTS
-─  using session charset: UTF-8
-─  current time: 2026-08-03 14:35:59 UTC
--  ─  using options ‘--no-manual --as-cran’
-\  ✔  checking for file ‘PhyloBasins/DESCRIPTION’
-─  this is package ‘PhyloBasins’ version ‘0.0.0.9000’
-─  package encoding: UTF-8
-   checking package namespace information ...|  ✔  checking package namespace information
-   checking package dependencies .../-\|/  ✔  checking package dependencies (909ms)
-✔  checking if this is a source package
-✔  checking if there is a namespace
--     checking for executable files ...\  ✔  checking for executable files
-   checking for hidden files and directories ...|  ✔  checking for hidden files and directories
-✔  checking for portable file names
-✔  checking for sufficient/correct file permissions
-/     checking whether package ‘PhyloBasins’ can be installed ...-\|/-\  ✔  checking whether package ‘PhyloBasins’ can be installed (1.3s)
-|  ✔  checking installed package size
-/  ✔  checking package directory
-   checking for future file timestamps ...-  ✔  checking for future file timestamps
-✔  checking ‘build’ directory
-   checking DESCRIPTION meta-information ...\|  ✔  checking DESCRIPTION meta-information
-N  checking top-level files
-   Non-standard files/directories found at top level:
-     ‘Devtools_log_260803_1625.txt’ ‘Devtools_log_260803_1627.txt’
-     ‘Devtools_log_260803_1635.txt’ ‘dev’
-✔  checking for left-over files
-   checking index information .../  ✔  checking index information
-   checking package subdirectories ...-\|  ✔  checking package subdirectories (459ms)
-   checking code files for non-ASCII characters .../  ✔  checking code files for non-ASCII characters
-   checking R files for syntax errors ...-  ✔  checking R files for syntax errors
-   checking whether the package can be loaded ...\  ✔  checking whether the package can be loaded
-   checking whether the package can be loaded with stated dependencies ...|  ✔  checking whether the package can be loaded with stated dependencies
-   checking whether the package can be unloaded cleanly .../  ✔  checking whether the package can be unloaded cleanly
-   checking whether the namespace can be loaded with stated dependencies ...-  ✔  checking whether the namespace can be loaded with stated dependencies
-   checking whether the namespace can be unloaded cleanly ...\  ✔  checking whether the namespace can be unloaded cleanly
-   checking loading without being on the library search path ...|  ✔  checking loading without being on the library search path
-/     checking dependencies in R code ...-\|/-  W  checking dependencies in R code (1.2s)
-   '::' or ':::' import not declared from: ‘ape’
-   Namespaces in Imports field not imported from:
-     ‘cli’ ‘methods’ ‘sf’ ‘stats’ ‘viridis’
-     All declared Imports should be used.
-   checking S3 generic/method consistency ...\  ✔  checking S3 generic/method consistency
-   checking replacement functions ...|  ✔  checking replacement functions
-   checking foreign function calls .../  ✔  checking foreign function calls
-   checking R code for possible problems ...-\|/-\|/-\|/  ✔  checking R code for possible problems (2.4s)
-   checking Rd files ...-\  ✔  checking Rd files
-   checking Rd metadata ...|  ✔  checking Rd metadata
-   checking Rd line widths .../  ✔  checking Rd line widths
-   checking Rd cross-references ...-  ✔  checking Rd cross-references
-   checking for missing documentation entries ...\  ✔  checking for missing documentation entries
-   checking for code/documentation mismatches ...|/  ✔  checking for code/documentation mismatches (348ms)
-   checking Rd \usage sections ...-\  ✔  checking Rd \usage sections
-   checking Rd contents ...|  ✔  checking Rd contents
-   checking for unstated dependencies in examples .../  ✔  checking for unstated dependencies in examples
--  ✔  checking contents of ‘data’ directory
-   checking data for non-ASCII characters ...\  ✔  checking data for non-ASCII characters
-✔  checking LazyData
-   checking data for ASCII and uncompressed saves ...|  ✔  checking data for ASCII and uncompressed saves
-/     checking installed files from ‘inst/doc’ ...-\  ✔  checking installed files from ‘inst/doc’
-   checking files in ‘vignettes’ ...|/  ✔  checking files in ‘vignettes’
--\     checking examples ...|/  ✔  checking examples (743ms)
-   checking for unstated dependencies in ‘tests’ ...-\|/-\|/  W  checking for unstated dependencies in ‘tests’ (1.6s)
-   'library' or 'require' call not declared from: ‘ape’
-   checking tests ...-  ─  checking tests
-   Running ‘testthat.R’\|/-\|/-\|  /  ─  Running ‘testthat.R’ (2s)
-E  Some test files failed
--     Running the tests in ‘tests/testthat.R’ failed.
-   Last 13 lines of output:
-     <packageNotFoundError/error/condition>
-     Error in `loadNamespace(x)`: there is no package called 'ape'
-     Backtrace:
-         ▆
-      1. ├─PhyloBasins:::pb_test_project(stage = "community") at test-run_pipeline.R:105:3
-      2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
-      3. └─base::loadNamespace(x)
-      4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
-      5.     └─base (local) withOneRestart(expr, restarts[[1L]])
-      6.       └─base (local) doWithOneRestart(return(expr), restart)
-     
-     [ FAIL 39 | WARN 0 | SKIP 1 | PASS 38 ]
-     Error:
-     ! Test failures.
-     Execution halted
-\     checking for unstated dependencies in vignettes ...|/  ✔  checking for unstated dependencies in vignettes (373ms)
-   checking package vignettes ...-  ✔  checking package vignettes
-   checking re-building of vignette outputs ...\|/-  ✔  checking re-building of vignette outputs (791ms)
-✔  checking for non-standard things in the check directory
-✔  checking for detritus in the temp directory
-   
-   See
-     ‘/tmp/Rtmp3HgBSF/file2742166aad4b/PhyloBasins.Rcheck/00check.log’
-   for details.
-   
-\|/      
-── R CMD check results ──────────────────────────────────────────────────────────────────────────────────────────────── PhyloBasins 0.0.0.9000 ────
-Duration: 16.5s
-
-❯ checking tests ...
-  See below...
-
-❯ checking dependencies in R code ... WARNING
-  '::' or ':::' import not declared from: ‘ape’
-  Namespaces in Imports field not imported from:
-    ‘cli’ ‘methods’ ‘sf’ ‘stats’ ‘viridis’
-    All declared Imports should be used.
-
-❯ checking for unstated dependencies in ‘tests’ ... WARNING
-  'library' or 'require' call not declared from: ‘ape’
-
-❯ checking top-level files ... NOTE
-  Non-standard files/directories found at top level:
-    ‘Devtools_log_260803_1625.txt’ ‘Devtools_log_260803_1627.txt’
-    ‘Devtools_log_260803_1635.txt’ ‘dev’
-
-── Test failures ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── testthat ────
-
-> # This file is part of the standard setup for testthat.
-> # It is recommended that you do not modify it.
-> #
-> # Where should you do additional test configuration?
-> # Learn more about the roles of various files in:
-> # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview
-> # * https://testthat.r-lib.org/articles/special-files.html
-> 
-> library(testthat)
-> library(PhyloBasins)
-
-Attaching package: 'PhyloBasins'
-
-The following object is masked from 'package:base':
-
-    %||%
-
-> 
-> test_check("PhyloBasins")
-Saving _problems/test-compute_all_metrics-7.R
-Saving _problems/test-compute_all_metrics-36.R
-Saving _problems/test-compute_all_metrics-64.R
-Saving _problems/test-compute_all_metrics-100.R
-Saving _problems/test-compute_all_metrics-114.R
-Saving _problems/test-compute_pd-7.R
-Saving _problems/test-compute_rpe-7.R
-Saving _problems/test-compute_rpe-26.R
-Saving _problems/test-compute_rpe-36.R
-Saving _problems/test-compute_rpe-50.R
-Saving _problems/test-compute_rpe-64.R
-Saving _problems/test-compute_rpe-84.R
-Saving _problems/test-compute_rpe-98.R
-Saving _problems/test-compute_rpe-112.R
-Saving _problems/test-compute_rpe-144.R
-Saving _problems/test-pb_project-22.R
-Saving _problems/test-pb_project-34.R
-Saving _problems/test-pb_project-45.R
-Saving _problems/test-pb_project-56.R
-Saving _problems/test-pb_project-67.R
-Saving _problems/test-pb_project-78.R
-Saving _problems/test-pb_project-89.R
-Saving _problems/test-pb_project-108.R
-Saving _problems/test-pb_project-127.R
-Saving _problems/test-pb_test_project-22.R
-Saving _problems/test-pb_test_project-34.R
-Saving _problems/test-pb_test_project-45.R
-Saving _problems/test-pb_test_project-56.R
-Saving _problems/test-pb_test_project-67.R
-Saving _problems/test-pb_test_project-78.R
-Saving _problems/test-pb_test_project-89.R
-Saving _problems/test-pb_test_project-116.R
-Saving _problems/test-pb_test_project-143.R
-Saving _problems/test-reference_branch_engine_small_tree-10.R
-Saving _problems/test-run_pipeline-7.R
-Saving _problems/test-run_pipeline-27.R
-Saving _problems/test-run_pipeline-55.R
-Saving _problems/test-run_pipeline-91.R
-Saving _problems/test-run_pipeline-105.R
-[ FAIL 39 | WARN 0 | SKIP 1 | PASS 38 ]
-
-══ Skipped tests (1) ═══════════════════════════════════════════════════════════
-• empty test (1):
-
-══ Failed tests ════════════════════════════════════════════════════════════════
-── Error ('test-compute_all_metrics.R:7:3'): compute_all_metrics computes every metric ──
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "site_branch_matrix") at test-compute_all_metrics.R:7:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_all_metrics.R:36:3'): all metric vectors have correct length ──
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "site_branch_matrix") at test-compute_all_metrics.R:36:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_all_metrics.R:64:3'): compute_all_metrics is idempotent ──
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "site_branch_matrix") at test-compute_all_metrics.R:64:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_all_metrics.R:100:3'): missing site-branch matrix throws error ──
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "community") at test-compute_all_metrics.R:100:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_all_metrics.R:114:3'): verbose does not change results ──
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "site_branch_matrix") at test-compute_all_metrics.R:114:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_pd.R:7:1'): (code run outside of `test_that()`) ────────
-<packageNotFoundError/error/condition>
-Error in `library(ape)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. └─base::library(ape) at test-compute_pd.R:7:1
-── Error ('test-compute_rpe.R:7:3'): compute_rpe computes RPE ──────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "branch_ranges") at test-compute_rpe.R:7:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:26:3'): RPE values are finite ────────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "rpe") at test-compute_rpe.R:26:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:36:3'): RPE names equal site names ───────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "rpe") at test-compute_rpe.R:36:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:50:3'): compute_rpe respects overwrite = FALSE ───
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "rpe") at test-compute_rpe.R:50:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:64:3'): compute_rpe allows overwrite = TRUE ──────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "rpe") at test-compute_rpe.R:64:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:84:3'): missing branch ranges throws error ───────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "site_branch_matrix") at test-compute_rpe.R:84:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:98:3'): missing site-branch matrix throws error ──
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "community") at test-compute_rpe.R:98:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:112:3'): verbose does not change result ──────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "branch_ranges") at test-compute_rpe.R:112:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-compute_rpe.R:144:3'): RPE values are non-negative ─────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "rpe") at test-compute_rpe.R:144:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:22:3'): tree stage is valid ───────────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("tree") at test-pb_project.R:22:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:34:3'): prepared_tree stage is valid ──────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("prepared_tree") at test-pb_project.R:34:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:45:3'): branches stage is valid ───────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("branches") at test-pb_project.R:45:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:56:3'): community stage is valid ──────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("community") at test-pb_project.R:56:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:67:3'): site_branch_matrix stage is valid ─────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("site_branch_matrix") at test-pb_project.R:67:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:78:3'): branch_ranges stage is valid ──────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("branch_ranges") at test-pb_project.R:78:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:89:3'): PD stage is valid ─────────────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("pd") at test-pb_project.R:89:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:108:3'): PE stage is valid ────────────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("pe") at test-pb_project.R:108:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_project.R:127:3'): RPE stage is valid ───────────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("rpe") at test-pb_project.R:127:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:22:3'): tree stage is valid ──────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("tree") at test-pb_test_project.R:22:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:34:3'): prepared_tree stage is valid ─────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("prepared_tree") at test-pb_test_project.R:34:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:45:3'): branches stage is valid ──────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("branches") at test-pb_test_project.R:45:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:56:3'): community stage is valid ─────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("community") at test-pb_test_project.R:56:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:67:3'): site_branch_matrix stage is valid ────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("site_branch_matrix") at test-pb_test_project.R:67:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:78:3'): branch_ranges stage is valid ─────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("branch_ranges") at test-pb_test_project.R:78:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:89:3'): PD stage is valid ────────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("pd") at test-pb_test_project.R:89:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:116:3'): PE stage is valid ───────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("pe") at test-pb_test_project.R:116:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-pb_test_project.R:143:3'): RPE stage is valid ──────────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project("rpe") at test-pb_test_project.R:143:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-reference_branch_engine_small_tree.R:10:1'): (code run outside of `test_that()`) ──
-<packageNotFoundError/error/condition>
-Error in `library(ape)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. └─base::library(ape) at test-reference_branch_engine_small_tree.R:10:1
-── Error ('test-run_pipeline.R:7:3'): run_pipeline completes full workflow ─────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "community") at test-run_pipeline.R:7:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-run_pipeline.R:27:3'): all metric vectors have correct length ──
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "community") at test-run_pipeline.R:27:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-run_pipeline.R:55:3'): run_pipeline is idempotent ──────────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "community") at test-run_pipeline.R:55:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-run_pipeline.R:91:3'): missing community throws error ──────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "branches") at test-run_pipeline.R:91:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-── Error ('test-run_pipeline.R:105:3'): verbose does not change results ────────
-<packageNotFoundError/error/condition>
-Error in `loadNamespace(x)`: there is no package called 'ape'
-Backtrace:
-    ▆
- 1. ├─PhyloBasins:::pb_test_project(stage = "community") at test-run_pipeline.R:105:3
- 2. │ └─PhyloBasins::read_tree(pb, file = tree_file, verbose = FALSE) at ./helper-pb_test_project.R:66:3
- 3. └─base::loadNamespace(x)
- 4.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
- 5.     └─base (local) withOneRestart(expr, restarts[[1L]])
- 6.       └─base (local) doWithOneRestart(return(expr), restart)
-
-[ FAIL 39 | WARN 0 | SKIP 1 | PASS 38 ]
-Error:
-! Test failures.
-Execution halted
-
-1 error ✖ | 2 warnings ✖ | 1 note ✖

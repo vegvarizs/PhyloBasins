@@ -1,52 +1,0 @@
-✔ | F W  S  OK | Context
-⠏ |          0 | build_site_branch_matrix                                                                                                          ✔ |      1   0 | build_site_branch_matrix
-⠏ |          0 | compute_all_metrics                                                                                                               ⠧ |          8 | compute_all_metrics                                                                                                               ⠦ |         17 | compute_all_metrics                                                                                                               ✔ |         17 | compute_all_metrics
-⠏ |          0 | compute_branch_ranges                                                                                                             ✔ |          5 | compute_branch_ranges
-⠏ |          0 | compute_pd                                                                                                                        List of 7
- $ matrix    :Formal class 'lgCMatrix' [package "Matrix"] with 6 slots
-  .. ..@ i       : int [1:14] 0 1 2 3 1 2 3 2 3 0 ...
-  .. ..@ p       : int [1:8] 0 4 7 9 10 12 13 14
-  .. ..@ Dim     : int [1:2] 4 7
-  .. ..@ Dimnames:List of 2
-  .. .. ..$ : chr [1:4] "S1" "S2" "S3" "S4"
-  .. .. ..$ : chr [1:7] "Root" "N1" "N2" "A" ...
-  .. ..@ x       : logi [1:14] TRUE TRUE TRUE TRUE TRUE TRUE ...
-  .. ..@ factors : list()
- $ sites     : chr [1:4] "S1" "S2" "S3" "S4"
- $ branches  : chr [1:7] "Root" "N1" "N2" "A" ...
- $ sparse    : logi TRUE
- $ built     : logi TRUE
- $ validation:List of 2
-  ..$ valid    : logi TRUE
-  ..$ reference: logi TRUE
- $ cache     :List of 3
-  ..$ branch_index: NULL
-  ..$ site_index  : NULL
-  ..$ transpose   : NULL
- - attr(*, "class")= chr "pb_site_branch_matrix"
-Formal class 'lgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:14] 0 1 2 3 1 2 3 2 3 0 ...
-  ..@ p       : int [1:8] 0 4 7 9 10 12 13 14
-  ..@ Dim     : int [1:2] 4 7
-  ..@ Dimnames:List of 2
-  .. ..$ : chr [1:4] "S1" "S2" "S3" "S4"
-  .. ..$ : chr [1:7] "Root" "N1" "N2" "A" ...
-  ..@ x       : logi [1:14] TRUE TRUE TRUE TRUE TRUE TRUE ...
-  ..@ factors : list()
-✔ |          3 | compute_pd
-⠏ |          0 | compute_pe_engine                                                                                                                 ✔ |         11 | compute_pe_engine
-⠏ |          0 | compute_pe                                                                                                                        ✔ |          1 | compute_pe
-⠏ |          0 | compute_rpe                                                                                                                       ⠇ |          9 | compute_rpe                                                                                                                       ✔ |         13 | compute_rpe
-⠏ |          0 | pb_project                                                                                                                        ⠋ |         21 | pb_project                                                                                                                        ⠦ |         47 | pb_project                                                                                                                        ⠹ |         63 | pb_project                                                                                                                        ✔ |         66 | pb_project
-⠏ |          0 | pb_test_project                                                                                                                   ⠦ |         17 | pb_test_project                                                                                                                   ⠇ |         39 | pb_test_project                                                                                                                   ⠏ |         70 | pb_test_project                                                                                                                   ⠋ |         91 | pb_test_project                                                                                                                   ✔ |        111 | pb_test_project
-⠏ |          0 | reference_branch_engine_small_tree                                                                                                ✔ |          7 | reference_branch_engine_small_tree
-⠏ |          0 | reference_branch_engine                                                                                                           ✔ |          3 | reference_branch_engine
-⠏ |          0 | run_pipeline                                                                                                                      ⠙ |         12 | run_pipeline                                                                                                                      ⠼ |         15 | run_pipeline                                                                                                                      ✔ |         17 | run_pipeline
-
-══ Results ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-Duration: 1.8 s
-
-── Skipped tests (1) ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-• empty test (1):
-
-[ FAIL 0 | WARN 0 | SKIP 1 | PASS 254 ]
