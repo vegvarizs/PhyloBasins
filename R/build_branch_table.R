@@ -23,7 +23,8 @@
 #' Updated \code{pb_project}.
 #'
 #' @export
-branches <- function(
+#' @export
+build_branch_table <- function(
     pb,
     overwrite = FALSE,
     verbose = TRUE

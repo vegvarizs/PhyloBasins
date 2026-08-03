@@ -95,7 +95,7 @@ pb_test_project <- function(
   # Branch table
   # ---------------------------------------------------------------------------
 
-  pb <- branches(
+  pb <- build_branch_table(
     pb,
     verbose = FALSE
   )
