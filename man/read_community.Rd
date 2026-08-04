@@ -2,25 +2,27 @@
 % Please edit documentation in R/read_community.R
 \name{read_community}
 \alias{read_community}
-\title{Read community matrix}
+\title{Read a community matrix}
 \usage{
-read_community(pb, file, verbose = TRUE)
+read_community(pb, file = NULL, data = NULL, id_col = NULL, verbose = TRUE)
 }
 \arguments{
-\item{pb}{A validated \code{pb_project}.}
+\item{pb}{A pb_project object.}
 
-\item{file}{Path to the community matrix.}
+\item{file}{Path to a community matrix.}
 
-\item{verbose}{Logical. Should progress messages be printed?}
+\item{data}{A data.frame or matrix.}
+
+\item{id_col}{Optional identifier column (name or index).}
+
+\item{verbose}{Logical.}
 }
 \value{
 Updated \code{pb_project}.
 }
 \description{
-Imports a community (presence/absence or abundance) matrix and stores it in
-a \code{pb_project}.
+Imports a community matrix into a \code{pb_project}.
 }
 \details{
-The first column must contain site names.
-Remaining columns correspond to taxa.
+Exactly one of \code{file} or \code{data} must be supplied.
 }

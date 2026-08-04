@@ -111,6 +111,7 @@ pb_test_project <- function(
   pb <- read_community(
     pb,
     file = community_file,
+    id_col = "SiteID",
     verbose = FALSE
   )
 
