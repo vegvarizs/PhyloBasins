@@ -1,8 +1,56 @@
 # =============================================================================
-# Tests for plot_rpe()
+# Tests for join_metric_to_geometry()
 # =============================================================================
 
-test_that("plot_rpe() returns a ggplot object", {
+test_that("join_metric_to_geometry() joins a single metric", {
+
+  pb <- pb_test_project(stage = "pd")
+
+  pb <- read_geometry(
+    pb,
+    file = system.file(
+      "extdata",
+      "example_geometry.geojson",
+      package = "PhyloBasins"
+    ),
+    verbose = FALSE
+  )
+
+  pb <- prepare_geometry(
+    pb,
+    geometry_id = "SiteID",
+    verbose = FALSE
+  )
+
+  geom <- join_metric_to_geometry(
+    pb,
+    metrics = "pd"
+  )
+
+  expect_s3_class(
+    geom,
+    "sf"
+  )
+
+  expect_true(
+    "pd" %in% names(geom)
+  )
+
+  expect_equal(
+    nrow(geom),
+    4
+  )
+
+  expect_equal(
+    sum(!is.na(geom$pd)),
+    4
+  )
+
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("join_metric_to_geometry() joins multiple metrics", {
 
   pb <- pb_test_project(stage = "rpe")
 
@@ -22,18 +70,27 @@ test_that("plot_rpe() returns a ggplot object", {
     verbose = FALSE
   )
 
-  p <- plot_rpe(pb)
+  geom <- join_metric_to_geometry(
+    pb,
+    metrics = c(
+      "pd",
+      "pe",
+      "rpe"
+    )
+  )
 
-  expect_s3_class(
-    p,
-    "ggplot"
+  expect_true(
+    all(
+      c("pd","pe","rpe") %in%
+        names(geom)
+    )
   )
 
 })
 
 # ------------------------------------------------------------------------------
 
-test_that("plot_rpe() forwards optional arguments", {
+test_that("join_metric_to_geometry() exports all metrics", {
 
   pb <- pb_test_project(stage = "rpe")
 
@@ -53,24 +110,22 @@ test_that("plot_rpe() forwards optional arguments", {
     verbose = FALSE
   )
 
-  p <- plot_rpe(
-    pb,
-    palette = "magma",
-    legend_title = "RPE"
-  )
+  geom <- join_metric_to_geometry(pb)
 
-  expect_s3_class(
-    p,
-    "ggplot"
+  expect_true(
+    all(
+      names(pb$metrics) %in%
+        names(geom)
+    )
   )
 
 })
 
 # ------------------------------------------------------------------------------
 
-test_that("plot_rpe() rejects projects without RPE", {
+test_that("join_metric_to_geometry() rejects unknown metrics", {
 
-  pb <- pb_test_project(stage = "community")
+  pb <- pb_test_project(stage = "pd")
 
   pb <- read_geometry(
     pb,
@@ -89,17 +144,23 @@ test_that("plot_rpe() rejects projects without RPE", {
   )
 
   expect_error(
-    plot_rpe(pb),
-    "has no values"
+
+    join_metric_to_geometry(
+      pb,
+      metrics = "foobar"
+    ),
+
+    "Unknown metric"
+
   )
 
 })
 
 # ------------------------------------------------------------------------------
 
-test_that("plot_rpe() accepts different palettes", {
+test_that("join_metric_to_geometry() updates project geometry", {
 
-  pb <- pb_test_project(stage = "rpe")
+  pb <- pb_test_project(stage = "pd")
 
   pb <- read_geometry(
     pb,
@@ -117,37 +178,24 @@ test_that("plot_rpe() accepts different palettes", {
     verbose = FALSE
   )
 
-  expect_s3_class(
-    plot_rpe(
-      pb,
-      palette = "viridis"
-    ),
-    "ggplot"
+  pb <- join_metric_to_geometry(
+    pb,
+    metrics = "pd",
+    copy_geometry = FALSE
   )
 
-  expect_s3_class(
-    plot_rpe(
-      pb,
-      palette = "plasma"
-    ),
-    "ggplot"
-  )
-
-  expect_s3_class(
-    plot_rpe(
-      pb,
-      palette = "magma"
-    ),
-    "ggplot"
+  expect_true(
+    "pd" %in%
+      names(pb$geometry$sf)
   )
 
 })
 
 # ------------------------------------------------------------------------------
 
-test_that("plot_rpe() rejects unknown palette", {
+test_that("join_metric_to_geometry() rejects existing columns", {
 
-  pb <- pb_test_project(stage = "rpe")
+  pb <- pb_test_project(stage = "pd")
 
   pb <- read_geometry(
     pb,
@@ -163,14 +211,24 @@ test_that("plot_rpe() rejects unknown palette", {
     pb,
     geometry_id = "SiteID",
     verbose = FALSE
+  )
+
+  pb <- join_metric_to_geometry(
+    pb,
+    metrics = "pd",
+    copy_geometry = FALSE
   )
 
   expect_error(
-    plot_rpe(
+
+    join_metric_to_geometry(
       pb,
-      palette = "foobar"
+      metrics = "pd",
+      copy_geometry = FALSE
     ),
-    "Unknown palette"
+
+    "already exists"
+
   )
 
 })

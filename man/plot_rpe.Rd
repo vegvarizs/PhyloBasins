@@ -6,11 +6,9 @@
 \usage{
 plot_rpe(
   pb,
-  shape,
-  id_col = "HYBAS_ID",
   palette = "viridis",
-  border_colour = "grey60",
-  border_size = 0.15,
+  border = "grey60",
+  linewidth = 0.15,
   na_colour = "grey90",
   legend_title = "Relative Phylogenetic Endemism"
 )
@@ -18,15 +16,11 @@ plot_rpe(
 \arguments{
 \item{pb}{A \code{pb_project}.}
 
-\item{shape}{An sf object.}
-
-\item{id_col}{Identifier column used for joining metric values.}
-
 \item{palette}{Viridis colour palette.}
 
-\item{border_colour}{Polygon border colour.}
+\item{border}{Polygon border colour.}
 
-\item{border_size}{Polygon border linewidth.}
+\item{linewidth}{Polygon border linewidth.}
 
 \item{na_colour}{Colour used for missing values.}
 
@@ -36,13 +30,5 @@ plot_rpe(
 A ggplot object.
 }
 \description{
-Creates a publication-quality map of relative phylogenetic
-endemism (RPE).
-}
-\details{
-This is a convenience wrapper around \code{\link[=plot_metric]{plot_metric()}} with
-\code{metric = "rpe"}.
-}
-\seealso{
-\code{\link[=plot_metric]{plot_metric()}}
+Convenience wrapper around \code{\link[=plot_metric]{plot_metric()}} with \code{metric = "rpe"}.
 }

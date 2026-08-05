@@ -2,43 +2,39 @@
 % Please edit documentation in R/plot_metric.R
 \name{plot_metric}
 \alias{plot_metric}
-\title{Plot a phylogenetic diversity metric}
+\title{Plot a metric}
 \usage{
 plot_metric(
   pb,
-  shape,
   metric,
-  id_col = "HYBAS_ID",
   palette = "viridis",
-  border_colour = "grey60",
-  border_size = 0.15,
+  border = "grey60",
+  linewidth = 0.15,
   na_colour = "grey90",
-  legend_title = NULL
+  legend_title = NULL,
+  ...
 )
 }
 \arguments{
-\item{pb}{A \code{pb_project}.}
+\item{pb}{A \code{pb_project} object.}
 
-\item{shape}{An sf object.}
+\item{metric}{Metric name.}
 
-\item{metric}{Character scalar specifying the metric.}
+\item{palette}{Colour palette.}
 
-\item{id_col}{Identifier column used for joining metric values.}
+\item{border}{Border colour.}
 
-\item{palette}{Viridis palette.}
+\item{linewidth}{Polygon border width.}
 
-\item{border_colour}{Polygon border colour.}
+\item{na_colour}{Colour for missing values.}
 
-\item{border_size}{Polygon border linewidth.}
+\item{legend_title}{Legend title.}
 
-\item{na_colour}{Colour used for missing values.}
-
-\item{legend_title}{Optional legend title. If NULL, the metric name
-is used.}
+\item{...}{Additional arguments passed to \code{\link[=plot_geometry]{plot_geometry()}}.}
 }
 \value{
 A ggplot object.
 }
 \description{
-Creates a publication-quality map of a phylogenetic diversity metric.
+Generic plotting function used by the metric wrappers.
 }

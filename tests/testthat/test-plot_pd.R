@@ -1,37 +1,62 @@
 # =============================================================================
-# test-plot_pd.R
+# Tests for plot_pd()
 # =============================================================================
 
 test_that("plot_pd() returns a ggplot object", {
 
-  skip_if_not_installed("sf")
-  skip_if_not_installed("ggplot2")
+  pb <- pb_test_project(stage = "pd")
+
+  pb <- read_geometry(
+    pb,
+    file = system.file(
+      "extdata",
+      "example_geometry.geojson",
+      package = "PhyloBasins"
+    ),
+    verbose = FALSE
+  )
+
+  pb <- prepare_geometry(
+    pb,
+    geometry_id = "SiteID",
+    verbose = FALSE
+  )
+
+  p <- plot_pd(pb)
+
+  expect_s3_class(
+    p,
+    "ggplot"
+  )
+
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("plot_pd() forwards optional arguments", {
 
   pb <- pb_test_project(stage = "pd")
 
-  shape <- sf::st_as_sf(
-
-    data.frame(
-
-      HYBAS_ID = c("S1", "S2"),
-
-      x = c(0, 1),
-
-      y = c(0, 1)
-
+  pb <- read_geometry(
+    pb,
+    file = system.file(
+      "extdata",
+      "example_geometry.geojson",
+      package = "PhyloBasins"
     ),
-
-    coords = c("x", "y"),
-
-    crs = 4326
-
+    verbose = FALSE
   )
 
-  shape <- sf::st_buffer(shape, dist = 0.1)
+  pb <- prepare_geometry(
+    pb,
+    geometry_id = "SiteID",
+    verbose = FALSE
+  )
 
   p <- plot_pd(
     pb,
-    shape
+    palette = "magma",
+    legend_title = "PD"
   )
 
   expect_s3_class(
@@ -41,50 +66,31 @@ test_that("plot_pd() returns a ggplot object", {
 
 })
 
+# ------------------------------------------------------------------------------
 
+test_that("plot_pd() rejects projects without PD", {
 
-test_that("plot_pd() forwards optional arguments", {
+  pb <- pb_test_project(stage = "community")
 
-  skip_if_not_installed("sf")
-  skip_if_not_installed("ggplot2")
-
-  pb <- pb_test_project(stage = "pd")
-
-  shape <- sf::st_as_sf(
-
-    data.frame(
-
-      HYBAS_ID = c("S1", "S2"),
-
-      x = c(0, 1),
-
-      y = c(0, 1)
-
-    ),
-
-    coords = c("x", "y"),
-
-    crs = 4326
-
-  )
-
-  shape <- sf::st_buffer(shape, dist = 0.1)
-
-  p <- plot_pd(
-
+  pb <- read_geometry(
     pb,
-
-    shape,
-
-    palette = "magma",
-
-    legend_title = "PD"
-
+    file = system.file(
+      "extdata",
+      "example_geometry.geojson",
+      package = "PhyloBasins"
+    ),
+    verbose = FALSE
   )
 
-  expect_s3_class(
-    p,
-    "ggplot"
+  pb <- prepare_geometry(
+    pb,
+    geometry_id = "SiteID",
+    verbose = FALSE
+  )
+
+  expect_error(
+    plot_pd(pb),
+    "has no values"
   )
 
 })

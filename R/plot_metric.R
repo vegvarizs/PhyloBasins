@@ -1,73 +1,78 @@
 # =============================================================================
 # plot_metric.R
 #
-# Generic plotting function for phylogenetic diversity metrics.
+# Generic plotting function for site-level metrics.
 # =============================================================================
 
-#' Plot a phylogenetic diversity metric
+#' Plot a metric
 #'
-#' Creates a publication-quality map of a phylogenetic diversity metric.
+#' Generic plotting function used by the metric wrappers.
 #'
-#' @param pb A `pb_project`.
-#' @param shape An sf object.
-#' @param metric Character scalar specifying the metric.
-#' @param id_col Identifier column used for joining metric values.
-#' @param palette Viridis palette.
-#' @param border_colour Polygon border colour.
-#' @param border_size Polygon border linewidth.
-#' @param na_colour Colour used for missing values.
-#' @param legend_title Optional legend title. If NULL, the metric name
-#'   is used.
+#' @param pb A `pb_project` object.
+#' @param metric Metric name.
+#' @param palette Colour palette.
+#' @param border Border colour.
+#' @param linewidth Polygon border width.
+#' @param na_colour Colour for missing values.
+#' @param legend_title Legend title.
+#' @param ... Additional arguments passed to [plot_geometry()].
 #'
 #' @return A ggplot object.
 #'
 #' @export
+
 plot_metric <- function(
     pb,
-    shape,
     metric,
-    id_col = "HYBAS_ID",
     palette = "viridis",
-    border_colour = "grey60",
-    border_size = 0.15,
+    border = "grey60",
+    linewidth = 0.15,
     na_colour = "grey90",
-    legend_title = NULL
+    legend_title = NULL,
+    ...
 ) {
 
-  metric <- tolower(metric)
+  check_pb_project(pb)
 
-  if (is.null(legend_title)) {
+  check_component_exists(pb, "metrics")
 
-    legend_title <- pb_metric_label(metric)
+  if (!metric %in% names(pb$metrics)) {
+
+    stop(
+      sprintf("Metric '%s' is not available.", metric),
+      call. = FALSE
+    )
 
   }
 
-  data <- prepare_plot_metric_data(
+  metric_obj <- pb$metrics[[metric]]
+
+  if (!is.list(metric_obj) || is.null(metric_obj$values)) {
+
+    stop(
+      sprintf("Metric '%s' has no values.", metric),
+      call. = FALSE
+    )
+
+  }
+
+  values <- metric_obj$values
+
+  if (is.null(legend_title)) {
+
+    legend_title <- toupper(metric)
+
+  }
+
+  plot_geometry(
     pb = pb,
-    shape = shape,
-    metric = metric,
-    id_col = id_col
+    fill = values,
+    border = border,
+    linewidth = linewidth,
+    palette = palette,
+    legend_title = legend_title,
+    na_colour = na_colour,
+    ...
   )
-
-  p <- ggplot2::ggplot(data)
-
-  p <- p +
-    ggplot2::geom_sf(
-      ggplot2::aes(fill = .data[[metric]]),
-      colour = border_colour,
-      linewidth = border_size
-    )
-
-  p <- p +
-    plot_metric_scale(
-      palette = palette,
-      na_colour = na_colour,
-      legend_title = legend_title
-    )
-
-  p <- p +
-    plot_metric_theme()
-
-  p
 
 }
