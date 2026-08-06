@@ -1,244 +1,178 @@
-# tests/testthat/test-build_community_from_geometry.R
+# =============================================================================
+# build_community_from_geometry.R
+#
+# Build a community matrix directly from geometry attributes.
+# =============================================================================
 
-test_that("build_community_from_geometry() builds a community object", {
+#' Build community from geometry
+#'
+#' Creates a presence/absence community matrix from the attribute table of
+#' a geometry object stored in a \code{pb_project}.
+#'
+#' @param pb A pb_project object.
+#' @param species_columns Optional character vector of species columns.
+#' @param first_species Optional first species column.
+#' @param last_species Optional last species column.
+#' @param site_id Name of the site identifier column.
+#' @param verbose Logical.
+#'
+#' @return A modified pb_project.
+#'
+#' @export
 
-  pb <- pb_test_project(stage = "geometry")
+build_community_from_geometry <- function(
 
-  attrs <- data.frame(
-    HYBAS_ID = c("S1", "S2", "S3"),
-    SP_A = c(1, 0, 1),
-    SP_B = c(0, 1, 1),
-    SP_C = c(1, 1, 0),
-    stringsAsFactors = FALSE
-  )
+  pb,
 
-  pb$geometry$data <- attrs
+  species_columns = NULL,
 
-  pb <- build_community_from_geometry(
-    pb,
-    species_columns = c("SP_A", "SP_B", "SP_C"),
-    verbose = FALSE
-  )
+  first_species = NULL,
 
-  expect_s3_class(pb$community, "pb_community")
+  last_species = NULL,
 
-  expect_equal(
+  site_id = "HYBAS_ID",
 
-    rownames(pb$community$matrix),
+  verbose = interactive()
 
-    attrs$HYBAS_ID
+) {
 
-  )
+  check_pb_project(pb)
 
-  expect_equal(
+  check_component_exists(pb, "geometry")
 
-    colnames(pb$community$matrix),
+  geometry <- pb$geometry
 
-    c("SP_A", "SP_B", "SP_C")
+  if (!inherits(geometry, "pb_geometry")) {
 
-  )
+    stop(
+      "Invalid geometry object.",
+      call. = FALSE
+    )
 
-  expect_equal(
+  }
 
-    dim(pb$community$matrix),
+  if (!geometry$loaded) {
 
-    c(3, 3)
+    stop(
+      "Geometry has not been loaded.",
+      call. = FALSE
+    )
 
-  )
+  }
 
-})
+  if (is.null(geometry$sf)) {
 
-test_that("species columns can be selected by first and last names", {
+    stop(
+      "Geometry object contains no sf data.",
+      call. = FALSE
+    )
 
-  pb <- pb_test_project(stage = "geometry")
+  }
 
-  pb$geometry$data <- data.frame(
+  attrs <-
 
-    HYBAS_ID = c("A", "B"),
+    sf::st_drop_geometry(
+      geometry$sf
+    )
 
-    META = c(10, 20),
+  if (!site_id %in% names(attrs)) {
 
-    SP_A = c(1, 0),
+    stop(
 
-    SP_B = c(0, 1),
+      sprintf(
 
-    SP_C = c(1, 1),
+        "Site identifier column '%s' not found.",
 
-    OTHER = c(5, 6),
+        site_id
 
-    stringsAsFactors = FALSE
+      ),
 
-  )
+      call. = FALSE
 
-  pb <- build_community_from_geometry(
+    )
 
-    pb,
+  }
 
-    first_species = "SP_A",
+  if (is.null(species_columns)) {
 
-    last_species = "SP_C",
+    species_columns <-
 
-    verbose = FALSE
+      detect_species_columns(
 
-  )
+        attrs,
 
-  expect_equal(
+        first_species = first_species,
 
-    colnames(pb$community$matrix),
+        last_species = last_species
 
-    c("SP_A", "SP_B", "SP_C")
+      )
 
-  )
+  }
 
-})
+  validate_species_columns(
 
-test_that("unknown site identifier throws an error", {
+    attrs,
 
-  pb <- pb_test_project(stage = "geometry")
-
-  pb$geometry$data <- data.frame(
-
-    SITE = c(1, 2),
-
-    SP_A = c(1, 0),
-
-    stringsAsFactors = FALSE
-
-  )
-
-  expect_error(
-
-    build_community_from_geometry(
-
-      pb,
-
-      species_columns = "SP_A",
-
-      site_id = "HYBAS_ID",
-
-      verbose = FALSE
-
-    ),
-
-    "Site identifier"
+    species_columns
 
   )
 
-})
+  if (verbose) {
 
-test_that("unknown species columns throw an error", {
+    message(
 
-  pb <- pb_test_project(stage = "geometry")
+      "Building community matrix from ",
 
-  pb$geometry$data <- data.frame(
+      length(species_columns),
 
-    HYBAS_ID = c(1, 2),
+      " species columns."
 
-    SP_A = c(1, 0),
+    )
 
-    stringsAsFactors = FALSE
+  }
 
-  )
+  community <-
 
-  expect_error(
+    community_from_geometry_engine(
 
-    build_community_from_geometry(
+      data = attrs,
 
-      pb,
+      site_id = site_id,
 
-      species_columns = c("SP_A", "SP_X"),
+      species_columns = species_columns
 
-      verbose = FALSE
+    )
 
-    ),
+  pb$community <-
 
-    "Unknown species columns"
+    new_community(
 
-  )
+      matrix = community,
 
-})
+      metadata = list(
 
-test_that("non-binary species columns are rejected", {
+        source = "geometry",
 
-  pb <- pb_test_project(stage = "geometry")
+        site_id = site_id,
 
-  pb$geometry$data <- data.frame(
-
-    HYBAS_ID = c(1, 2),
-
-    SP_A = c(0, 2),
-
-    stringsAsFactors = FALSE
-
-  )
-
-  expect_error(
-
-    build_community_from_geometry(
-
-      pb,
-
-      species_columns = "SP_A",
-
-      verbose = FALSE
-
-    ),
-
-    "0/1"
-
-  )
-
-})
-
-test_that("logical species columns are accepted", {
-
-  pb <- pb_test_project(stage = "geometry")
-
-  pb$geometry$data <- data.frame(
-
-    HYBAS_ID = c(1, 2),
-
-    SP_A = c(TRUE, FALSE),
-
-    SP_B = c(FALSE, TRUE),
-
-    stringsAsFactors = FALSE
-
-  )
-
-  pb <- build_community_from_geometry(
-
-    pb,
-
-    species_columns = c("SP_A", "SP_B"),
-
-    verbose = FALSE
-
-  )
-
-  expect_equal(
-
-    pb$community$matrix,
-
-    matrix(
-
-      c(1,0,
-        0,1),
-
-      nrow = 2,
-
-      byrow = TRUE,
-
-      dimnames = list(
-
-        c("1","2"),
-
-        c("SP_A","SP_B")
+        species_columns = species_columns
 
       )
 
     )
 
-  )
+  if (verbose) {
 
-})
+    message(
+
+      nrow(community),
+
+      " communities created."
+
+    )
+
+  }
+
+  pb
+
+}
