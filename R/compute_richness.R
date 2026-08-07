@@ -1,50 +1,61 @@
 # =============================================================================
-# Compute Phylogenetic Endemism
+# Compute species richness
 # =============================================================================
 
-#' Compute Phylogenetic Endemism
+#' Compute species richness
 #'
-#' Computes phylogenetic endemism (PE) for all communities.
+#' Computes species richness (number of taxa present) for every community.
 #'
-#' @param pb
-#' A validated \code{pb_project}.
-#'
-#' @param overwrite
-#' Logical. Recompute existing values?
-#'
-#' @param verbose
-#' Logical. Print progress messages?
+#' @param pb A PhyloBasins project.
+#' @param overwrite Logical. Recompute richness if it already exists.
+#' @param verbose Logical. Print progress messages.
 #'
 #' @return
-#' Updated \code{pb_project}.
+#' Updated PhyloBasins project.
 #'
 #' @export
 
-compute_pe <- function(
+compute_richness <- function(
     pb,
     overwrite = FALSE,
     verbose = TRUE
 ) {
 
-  validate_pb_project(pb)
-
   # -------------------------------------------------------------------------
   # Input checks
   # -------------------------------------------------------------------------
 
-  if (!isTRUE(pb$site_branch_matrix$built)) {
+  if (!inherits(pb, "pb_project")) {
 
     stop(
-      "Site-branch matrix has not been built.",
+      "Input must be a PhyloBasins project.",
       call. = FALSE
     )
 
   }
 
-  if (!isTRUE(pb$branch_ranges$computed)) {
+  if (is.null(pb$community)) {
 
     stop(
-      "Branch ranges have not been computed.",
+      "Community has not been loaded.",
+      call. = FALSE
+    )
+
+  }
+
+  if (!isTRUE(pb$community$loaded)) {
+
+    stop(
+      "Community has not been loaded.",
+      call. = FALSE
+    )
+
+  }
+
+  if (is.null(pb$community$matrix)) {
+
+    stop(
+      "Community matrix is missing.",
       call. = FALSE
     )
 
@@ -54,12 +65,13 @@ compute_pe <- function(
   # Already computed
   # -------------------------------------------------------------------------
 
-  if (isTRUE(pb$metrics$pe$computed) && !overwrite) {
+  if (!overwrite &&
+      !is.null(pb$metrics$richness)) {
 
     if (verbose) {
 
       message(
-        "PE has already been computed."
+        "Species richness already computed."
       )
 
     }
@@ -69,44 +81,37 @@ compute_pe <- function(
   }
 
   # -------------------------------------------------------------------------
-  # Compute PE
+  # Compute richness
   # -------------------------------------------------------------------------
 
   if (verbose) {
 
     message(
-      "Computing phylogenetic endemism..."
+      "Computing species richness..."
     )
 
   }
 
-  pe <- compute_pe_engine(
-
-    site_branch_matrix =
-      pb$site_branch_matrix$matrix,
-
-    weighted_length =
-      pb$branch_ranges$table$weighted_length
-
-  )
-
-  pe_table <- data.frame(
-
-    HYBAS_ID = pb$site_branch_matrix$sites,
-
-    pe = pe,
-
-    stringsAsFactors = FALSE
-
+  richness <- rowSums(
+    pb$community$matrix > 0,
+    na.rm = TRUE
   )
 
   # -------------------------------------------------------------------------
   # Store results
   # -------------------------------------------------------------------------
 
-  pb$metrics$pe <- list(
+  pb$metrics$richness <- list(
 
-    values = pe_table,
+    values = data.frame(
+
+      HYBAS_ID = pb$community$sites,
+
+      richness = richness,
+
+      stringsAsFactors = FALSE
+
+    ),
 
     computed = TRUE
 
@@ -122,9 +127,9 @@ compute_pe <- function(
 
     data.frame(
 
-      timestamp = timestamp(),
+      timestamp = Sys.time(),
 
-      action = "pe_computed",
+      action = "richness_computed",
 
       stringsAsFactors = FALSE
 
@@ -139,12 +144,10 @@ compute_pe <- function(
   if (verbose) {
 
     message(
-
       sprintf(
-        "Computed PE for %d sites.",
-        nrow(pe_table)
+        "Computed species richness for %d sites.",
+        length(richness)
       )
-
     )
 
   }

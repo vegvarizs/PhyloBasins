@@ -1,6 +1,4 @@
 # =============================================================================
-# PhyloBasins
-#
 # Compute Relative Phylogenetic Endemism
 # =============================================================================
 
@@ -32,26 +30,53 @@ compute_rpe <- function(
 
   validate_pb_project(pb)
 
-  if (!pb$site_branch_matrix$built)
+  # -------------------------------------------------------------------------
+  # Input checks
+  # -------------------------------------------------------------------------
+
+  if (!isTRUE(pb$site_branch_matrix$built)) {
+
     stop(
       "Site-branch matrix has not been built.",
       call. = FALSE
     )
 
-  if (!pb$branch_ranges$computed)
+  }
+
+  if (!isTRUE(pb$branch_ranges$computed)) {
+
     stop(
       "Branch ranges have not been computed.",
       call. = FALSE
     )
 
-  if (isTRUE(pb$metrics$rpe$computed) && !overwrite)
-    stop(
-      "RPE has already been computed.",
-      call. = FALSE
+  }
+
+  # -------------------------------------------------------------------------
+  # Already computed
+  # -------------------------------------------------------------------------
+
+  if (isTRUE(pb$metrics$rpe$computed) && !overwrite) {
+
+    if (verbose) {
+
+      message(
+        "RPE has already been computed."
+      )
+
+    }
+
+    return(pb)
+
+  }
+
+  if (verbose) {
+
+    message(
+      "Computing relative phylogenetic endemism..."
     )
 
-  if (verbose)
-    message("Computing relative phylogenetic endemism...")
+  }
 
   # -------------------------------------------------------------------------
   # Observed PE
@@ -71,14 +96,11 @@ compute_rpe <- function(
   # Equal-branch-length tree
   # -------------------------------------------------------------------------
 
-  occurrence <-
-    pb$branch_ranges$table$n_sites
+  occurrence <- pb$branch_ranges$table$n_sites
 
-  branch_length <-
-    pb$branches$table$length
+  branch_length <- pb$branches$table$length
 
-  total_tree_length <-
-    sum(branch_length)
+  total_tree_length <- sum(branch_length)
 
   equal_branch_length <-
     total_tree_length / length(branch_length)
@@ -114,13 +136,34 @@ compute_rpe <- function(
   valid <- pe_equal > 0
 
   rpe[valid] <-
-    pe_observed[valid] / pe_equal[valid]
+    pe_observed[valid] /
+    pe_equal[valid]
 
-  names(rpe) <- names(pe_observed)
+  rpe_table <- data.frame(
 
-  pb$metrics$rpe$values <- rpe
+    HYBAS_ID = pb$site_branch_matrix$sites,
 
-  pb$metrics$rpe$computed <- TRUE
+    rpe = rpe,
+
+    stringsAsFactors = FALSE
+
+  )
+
+  # -------------------------------------------------------------------------
+  # Store results
+  # -------------------------------------------------------------------------
+
+  pb$metrics$rpe <- list(
+
+    values = rpe_table,
+
+    computed = TRUE
+
+  )
+
+  # -------------------------------------------------------------------------
+  # Update history
+  # -------------------------------------------------------------------------
 
   pb$history <- rbind(
 
@@ -138,8 +181,22 @@ compute_rpe <- function(
 
   )
 
-  if (verbose)
-    message("Done.")
+  # -------------------------------------------------------------------------
+  # Finish
+  # -------------------------------------------------------------------------
+
+  if (verbose) {
+
+    message(
+
+      sprintf(
+        "Computed RPE for %d sites.",
+        nrow(rpe_table)
+      )
+
+    )
+
+  }
 
   pb
 

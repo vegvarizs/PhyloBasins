@@ -33,21 +33,47 @@ test_that("all metric vectors have correct length", {
 
   n_sites <- nrow(pb$site_branch_matrix$matrix)
 
-  expect_length(
-    pb$metrics$pd$values,
+  expect_true(
+    is.data.frame(pb$metrics$pd$values)
+  )
+
+  expect_true(
+    is.data.frame(pb$metrics$pe$values)
+  )
+
+  expect_true(
+    is.data.frame(pb$metrics$rpe$values)
+  )
+
+  expect_identical(
+    names(pb$metrics$pd$values),
+    c("HYBAS_ID", "pd")
+  )
+
+  expect_identical(
+    names(pb$metrics$pe$values),
+    c("HYBAS_ID", "pe")
+  )
+
+  expect_identical(
+    names(pb$metrics$rpe$values),
+    c("HYBAS_ID", "rpe")
+  )
+
+  expect_equal(
+    nrow(pb$metrics$pd$values),
     n_sites
   )
 
-  expect_length(
-    pb$metrics$pe$values,
+  expect_equal(
+    nrow(pb$metrics$pe$values),
     n_sites
   )
 
-  expect_length(
-    pb$metrics$rpe$values,
+  expect_equal(
+    nrow(pb$metrics$rpe$values),
     n_sites
   )
-
 })
 
 test_that("run_pipeline is idempotent", {

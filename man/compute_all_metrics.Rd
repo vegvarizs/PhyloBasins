@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_all_metrics.R
 \name{compute_all_metrics}
 \alias{compute_all_metrics}
-\title{Compute all phylogenetic diversity metrics}
+\title{Compute all diversity metrics}
 \usage{
 compute_all_metrics(pb, overwrite = FALSE, verbose = TRUE)
 }
@@ -17,9 +17,21 @@ compute_all_metrics(pb, overwrite = FALSE, verbose = TRUE)
 Updated \code{pb_project}.
 }
 \description{
-Computes all currently implemented diversity metrics in the correct order.
+Computes all currently implemented community and phylogenetic diversity
+metrics in the correct order.
 }
 \details{
 The function automatically skips metrics that have already been computed,
 unless \code{overwrite = TRUE}.
+
+Computation order:
+
+\enumerate{
+\item Species richness
+\item Community turnover
+\item Branch ranges
+\item Faith's PD
+\item Phylogenetic Endemism (PE)
+\item Relative Phylogenetic Endemism (RPE)
+}
 }

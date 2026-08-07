@@ -168,26 +168,60 @@ test_that("compute_pd reproduces known PD values", {
     pb$metrics$pd$computed
   )
 
-  expect_equal(
+  # ---------------------------------------------------------------------------
+  # Checks
+  # ---------------------------------------------------------------------------
 
-    pb$metrics$pd$values,
+  expect_true(
+    pb$metrics$pd$computed
+  )
 
-    c(
-
-      S1 = 2,
-      S2 = 4,
-      S3 = 8,
-      S4 = 7
-
-    )
-
+  expect_true(
+    is.data.frame(pb$metrics$pd$values)
   )
 
   expect_identical(
 
     names(pb$metrics$pd$values),
 
-    c("S1","S2","S3","S4")
+    c(
+      "HYBAS_ID",
+      "pd"
+    )
+
+  )
+
+  expect_equal(
+
+    pb$metrics$pd$values$HYBAS_ID,
+
+    c(
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    )
+
+  )
+
+  expect_equal(
+
+    pb$metrics$pd$values$pd,
+
+    c(
+      2,
+      4,
+      8,
+      7
+    )
+
+  )
+
+  expect_equal(
+
+    nrow(pb$metrics$pd$values),
+
+    4L
 
   )
 

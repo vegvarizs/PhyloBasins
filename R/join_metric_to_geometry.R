@@ -30,7 +30,7 @@ join_metric_to_geometry <- function(
     overwrite = FALSE
 ) {
 
-  check_pb_project(pb)
+  validate_pb_project(pb)
 
   check_component_exists(pb, "geometry")
   check_component_exists(pb, "metrics")
@@ -85,11 +85,12 @@ join_metric_to_geometry <- function(
     metric_obj <- pb$metrics[[metric]]
 
     if (!is.list(metric_obj) ||
+        !isTRUE(metric_obj$computed) ||
         is.null(metric_obj$values)) {
 
       stop(
         sprintf(
-          "Metric '%s' has no values.",
+          "Metric '%s' has not been computed.",
           metric
         ),
         call. = FALSE
@@ -98,11 +99,36 @@ join_metric_to_geometry <- function(
     }
 
     values <- metric_obj$values
-    if (length(values) != length(rows)) {
+
+    if (!is.data.frame(values)) {
 
       stop(
         sprintf(
-          "Metric '%s' has incorrect length.",
+          "Metric '%s' must be stored as a data frame.",
+          metric
+        ),
+        call. = FALSE
+      )
+
+    }
+
+    if (!all(c("HYBAS_ID", metric) %in% names(values))) {
+
+      stop(
+        sprintf(
+          "Metric '%s' has incorrect table structure.",
+          metric
+        ),
+        call. = FALSE
+      )
+
+    }
+
+    if (nrow(values) != length(rows)) {
+
+      stop(
+        sprintf(
+          "Metric '%s' has incorrect number of rows.",
           metric
         ),
         call. = FALSE
@@ -125,7 +151,7 @@ join_metric_to_geometry <- function(
 
     geom[[metric]] <- NA_real_
 
-    geom[[metric]][rows] <- values
+    geom[[metric]][rows] <- values[[metric]]
 
   }
 

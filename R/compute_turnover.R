@@ -1,13 +1,15 @@
 # =============================================================================
-# Compute Phylogenetic Endemism
+# Compute turnover
 # =============================================================================
 
-#' Compute Phylogenetic Endemism
+#' Compute community turnover
 #'
-#' Computes phylogenetic endemism (PE) for all communities.
+#' Computes the mean Jaccard dissimilarity (community turnover) for every site.
+#' Turnover is calculated as the mean binary Jaccard distance between each site
+#' and all other sites.
 #'
 #' @param pb
-#' A validated \code{pb_project}.
+#' A PhyloBasins project.
 #'
 #' @param overwrite
 #' Logical. Recompute existing values?
@@ -20,31 +22,47 @@
 #'
 #' @export
 
-compute_pe <- function(
+compute_turnover <- function(
     pb,
     overwrite = FALSE,
     verbose = TRUE
 ) {
 
-  validate_pb_project(pb)
-
   # -------------------------------------------------------------------------
   # Input checks
   # -------------------------------------------------------------------------
 
-  if (!isTRUE(pb$site_branch_matrix$built)) {
+  if (!inherits(pb, "pb_project")) {
 
     stop(
-      "Site-branch matrix has not been built.",
+      "Input must be a PhyloBasins project.",
       call. = FALSE
     )
 
   }
 
-  if (!isTRUE(pb$branch_ranges$computed)) {
+  if (is.null(pb$community)) {
 
     stop(
-      "Branch ranges have not been computed.",
+      "Community has not been loaded.",
+      call. = FALSE
+    )
+
+  }
+
+  if (!isTRUE(pb$community$loaded)) {
+
+    stop(
+      "Community has not been loaded.",
+      call. = FALSE
+    )
+
+  }
+
+  if (is.null(pb$community$matrix)) {
+
+    stop(
+      "Community matrix is missing.",
       call. = FALSE
     )
 
@@ -54,12 +72,13 @@ compute_pe <- function(
   # Already computed
   # -------------------------------------------------------------------------
 
-  if (isTRUE(pb$metrics$pe$computed) && !overwrite) {
+  if (isTRUE(pb$metrics$turnover$computed) &&
+      !overwrite) {
 
     if (verbose) {
 
       message(
-        "PE has already been computed."
+        "Community turnover already computed."
       )
 
     }
@@ -69,34 +88,38 @@ compute_pe <- function(
   }
 
   # -------------------------------------------------------------------------
-  # Compute PE
+  # Compute turnover
   # -------------------------------------------------------------------------
 
   if (verbose) {
 
     message(
-      "Computing phylogenetic endemism..."
+      "Computing community turnover..."
     )
 
   }
 
-  pe <- compute_pe_engine(
+  comm <- pb$community$matrix > 0
 
-    site_branch_matrix =
-      pb$site_branch_matrix$matrix,
+  jac <- vegan::vegdist(
 
-    weighted_length =
-      pb$branch_ranges$table$weighted_length
+    comm,
+
+    method = "jaccard",
+
+    binary = TRUE
 
   )
 
-  pe_table <- data.frame(
+  jac <- as.matrix(jac)
 
-    HYBAS_ID = pb$site_branch_matrix$sites,
+  diag(jac) <- NA_real_
 
-    pe = pe,
+  turnover <- rowMeans(
 
-    stringsAsFactors = FALSE
+    jac,
+
+    na.rm = TRUE
 
   )
 
@@ -104,9 +127,19 @@ compute_pe <- function(
   # Store results
   # -------------------------------------------------------------------------
 
-  pb$metrics$pe <- list(
+  turnover_table <- data.frame(
 
-    values = pe_table,
+    HYBAS_ID = pb$community$sites,
+
+    turnover = turnover,
+
+    stringsAsFactors = FALSE
+
+  )
+
+  pb$metrics$turnover <- list(
+
+    values = turnover_table,
 
     computed = TRUE
 
@@ -124,7 +157,7 @@ compute_pe <- function(
 
       timestamp = timestamp(),
 
-      action = "pe_computed",
+      action = "turnover_computed",
 
       stringsAsFactors = FALSE
 
@@ -141,8 +174,11 @@ compute_pe <- function(
     message(
 
       sprintf(
-        "Computed PE for %d sites.",
-        nrow(pe_table)
+
+        "Computed turnover for %d sites.",
+
+        nrow(turnover_table)
+
       )
 
     )

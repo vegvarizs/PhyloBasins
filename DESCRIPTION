@@ -21,6 +21,7 @@ Imports:
     sf,
     stats,
     utils,
+    vegan
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5)

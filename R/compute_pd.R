@@ -4,6 +4,8 @@
 
 #' Compute Faith's Phylogenetic Diversity
 #'
+#' Computes Faith's phylogenetic diversity (PD) for all communities.
+#'
 #' @param pb
 #' A validated \code{pb_project}.
 #'
@@ -26,35 +28,56 @@ compute_pd <- function(
 
   validate_pb_project(pb)
 
-  if (!pb$branches$prepared) {
+  # -------------------------------------------------------------------------
+  # Input checks
+  # -------------------------------------------------------------------------
+
+  if (!isTRUE(pb$branches$prepared)) {
+
     stop(
       "Branch table has not been prepared.",
       call. = FALSE
     )
+
   }
 
-  if (!pb$site_branch_matrix$built) {
+  if (!isTRUE(pb$site_branch_matrix$built)) {
+
     stop(
       "Site-branch matrix has not been built.",
       call. = FALSE
     )
+
   }
+
+  # -------------------------------------------------------------------------
+  # Already computed
+  # -------------------------------------------------------------------------
 
   if (isTRUE(pb$metrics$pd$computed) && !overwrite) {
 
-    if (verbose)
-      message("PD has already been computed.")
+    if (verbose) {
+
+      message(
+        "PD has already been computed."
+      )
+
+    }
 
     return(pb)
 
   }
 
+  # -------------------------------------------------------------------------
+  # Compute PD
+  # -------------------------------------------------------------------------
+
   branch_table <- pb$branches$table
-  SBM <- pb$site_branch_matrix$matrix
+  sbm <- pb$site_branch_matrix$matrix
 
   branch_lengths <- branch_table$length
 
-  if (length(branch_lengths) != ncol(SBM)) {
+  if (length(branch_lengths) != ncol(sbm)) {
 
     stop(
       "Branch table and site-branch matrix are inconsistent.",
@@ -63,25 +86,35 @@ compute_pd <- function(
 
   }
 
-  pd <- as.numeric(SBM %*% branch_lengths)
+  pd <- as.numeric(
+    sbm %*% branch_lengths
+  )
 
-  names(pd) <- pb$site_branch_matrix$sites
+  pd_table <- data.frame(
 
-  pb$metrics$pd$values <- pd
-  pb$metrics$pd$computed <- TRUE
+    HYBAS_ID = pb$site_branch_matrix$sites,
 
-  if (verbose) {
+    pd = pd,
 
-    message(
+    stringsAsFactors = FALSE
 
-      sprintf(
-        "Computed PD for %d sites.",
-        length(pd)
-      )
+  )
 
-    )
+  # -------------------------------------------------------------------------
+  # Store results
+  # -------------------------------------------------------------------------
 
-  }
+  pb$metrics$pd <- list(
+
+    values = pd_table,
+
+    computed = TRUE
+
+  )
+
+  # -------------------------------------------------------------------------
+  # Update history
+  # -------------------------------------------------------------------------
 
   pb$history <- rbind(
 
@@ -98,6 +131,23 @@ compute_pd <- function(
     )
 
   )
+
+  # -------------------------------------------------------------------------
+  # Finish
+  # -------------------------------------------------------------------------
+
+  if (verbose) {
+
+    message(
+
+      sprintf(
+        "Computed PD for %d sites.",
+        nrow(pd_table)
+      )
+
+    )
+
+  }
 
   pb
 

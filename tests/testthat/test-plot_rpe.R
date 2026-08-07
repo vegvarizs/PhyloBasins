@@ -90,11 +90,10 @@ test_that("plot_rpe() rejects projects without RPE", {
 
   expect_error(
     plot_rpe(pb),
-    "has no values"
+    "has not been computed"
   )
 
 })
-
 # ------------------------------------------------------------------------------
 
 test_that("plot_rpe() accepts different palettes", {

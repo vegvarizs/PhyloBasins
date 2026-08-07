@@ -4,12 +4,24 @@
 # Compute all implemented diversity metrics
 # =============================================================================
 
-#' Compute all phylogenetic diversity metrics
+#' Compute all diversity metrics
 #'
-#' Computes all currently implemented diversity metrics in the correct order.
+#' Computes all currently implemented community and phylogenetic diversity
+#' metrics in the correct order.
 #'
 #' The function automatically skips metrics that have already been computed,
 #' unless \code{overwrite = TRUE}.
+#'
+#' Computation order:
+#'
+#' \enumerate{
+#'   \item Species richness
+#'   \item Community turnover
+#'   \item Branch ranges
+#'   \item Faith's PD
+#'   \item Phylogenetic Endemism (PE)
+#'   \item Relative Phylogenetic Endemism (RPE)
+#' }
 #'
 #' @param pb
 #' A validated \code{pb_project}.
@@ -33,7 +45,35 @@ compute_all_metrics <- function(
 
   validate_pb_project(pb)
 
-  if (!pb$branch_ranges$computed || overwrite) {
+  # -------------------------------------------------------------------------
+  # Community metrics
+  # -------------------------------------------------------------------------
+
+  if (!isTRUE(pb$metrics$richness$computed) || overwrite) {
+
+    pb <- compute_richness(
+      pb,
+      overwrite = overwrite,
+      verbose = verbose
+    )
+
+  }
+
+  if (!isTRUE(pb$metrics$turnover$computed) || overwrite) {
+
+    pb <- compute_turnover(
+      pb,
+      overwrite = overwrite,
+      verbose = verbose
+    )
+
+  }
+
+  # -------------------------------------------------------------------------
+  # Branch ranges
+  # -------------------------------------------------------------------------
+
+  if (!isTRUE(pb$branch_ranges$computed) || overwrite) {
 
     pb <- compute_branch_ranges(
       pb,
@@ -42,6 +82,10 @@ compute_all_metrics <- function(
     )
 
   }
+
+  # -------------------------------------------------------------------------
+  # Phylogenetic metrics
+  # -------------------------------------------------------------------------
 
   if (!isTRUE(pb$metrics$pd$computed) || overwrite) {
 
@@ -73,12 +117,18 @@ compute_all_metrics <- function(
 
   }
 
+  # -------------------------------------------------------------------------
+  # Finish
+  # -------------------------------------------------------------------------
+
   if (verbose) {
-    message("All implemented metrics have been computed.")
+
+    message(
+      "All implemented metrics have been computed."
+    )
+
   }
 
   pb
 
 }
-
-

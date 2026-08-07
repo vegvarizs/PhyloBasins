@@ -90,7 +90,7 @@ test_that("plot_pe() rejects projects without PE", {
 
   expect_error(
     plot_pe(pb),
-    "has no values"
+    "has not been computed"
   )
 
 })

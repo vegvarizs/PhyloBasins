@@ -7,9 +7,9 @@
 compute_pe(pb, overwrite = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{pb}{A \code{pb_project} object.}
+\item{pb}{A validated \code{pb_project}.}
 
-\item{overwrite}{Logical. Overwrite an existing result?}
+\item{overwrite}{Logical. Recompute existing values?}
 
 \item{verbose}{Logical. Print progress messages?}
 }
@@ -17,5 +17,5 @@ compute_pe(pb, overwrite = FALSE, verbose = TRUE)
 Updated \code{pb_project}.
 }
 \description{
-Computes Faith's Phylogenetic Endemism (PE) for every site.
+Computes phylogenetic endemism (PE) for all communities.
 }

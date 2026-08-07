@@ -17,5 +17,5 @@ compute_pd(pb, overwrite = FALSE, verbose = TRUE)
 Updated \code{pb_project}.
 }
 \description{
-Compute Faith's Phylogenetic Diversity
+Computes Faith's phylogenetic diversity (PD) for all communities.
 }

@@ -93,11 +93,16 @@ test_that("PD stage is valid", {
   expect_true(pb$metrics$pd$computed)
 
   expect_true(
-    is.numeric(pb$metrics$pd$values)
+    is.data.frame(pb$metrics$pd$values)
   )
 
-  expect_length(
-    pb$metrics$pd$values,
+  expect_identical(
+    names(pb$metrics$pd$values),
+    c("HYBAS_ID", "pd")
+  )
+
+  expect_equal(
+    nrow(pb$metrics$pd$values),
     nrow(pb$community$matrix)
   )
 
@@ -112,11 +117,16 @@ test_that("PE stage is valid", {
   expect_true(pb$metrics$pe$computed)
 
   expect_true(
-    is.numeric(pb$metrics$pe$values)
+    is.data.frame(pb$metrics$pe$values)
   )
 
-  expect_length(
-    pb$metrics$pe$values,
+  expect_identical(
+    names(pb$metrics$pe$values),
+    c("HYBAS_ID", "pe")
+  )
+
+  expect_equal(
+    nrow(pb$metrics$pe$values),
     nrow(pb$community$matrix)
   )
 
@@ -131,14 +141,18 @@ test_that("RPE stage is valid", {
   expect_true(pb$metrics$rpe$computed)
 
   expect_true(
-    is.numeric(pb$metrics$rpe$values)
+    is.data.frame(pb$metrics$rpe$values)
   )
 
-  expect_length(
-    pb$metrics$rpe$values,
+  expect_identical(
+    names(pb$metrics$rpe$values),
+    c("HYBAS_ID", "rpe")
+  )
+
+  expect_equal(
+    nrow(pb$metrics$rpe$values),
     nrow(pb$community$matrix)
   )
-
 })
 
 test_that("invalid stage fails", {

@@ -70,27 +70,16 @@ test_that("plot_pd() forwards optional arguments", {
 
 test_that("plot_pd() rejects projects without PD", {
 
-  pb <- pb_test_project(stage = "community")
-
-  pb <- read_geometry(
-    pb,
-    file = system.file(
-      "extdata",
-      "example_geometry.geojson",
-      package = "PhyloBasins"
-    ),
-    verbose = FALSE
-  )
-
-  pb <- prepare_geometry(
-    pb,
-    geometry_id = "SiteID",
-    verbose = FALSE
+  pb <- pb_test_project(
+    stage = "community"
   )
 
   expect_error(
+
     plot_pd(pb),
-    "has no values"
+
+    "has not been computed"
+
   )
 
 })

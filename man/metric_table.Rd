@@ -9,39 +9,11 @@ metric_table(pb, metric)
 \arguments{
 \item{pb}{A validated \code{pb_project}.}
 
-\item{metric}{Character string specifying the metric.
-Currently one of
-\code{"pd"},
-\code{"pe"} or
-\code{"rpe"}.}
+\item{metric}{Character string specifying the metric.}
 }
 \value{
-A data frame with two columns:
-
-\describe{
-\item{site}{Site names.}
-\item{value}{Metric values.}
-}
+A data frame containing the requested metric.
 }
 \description{
-Returns a standardised data frame containing the values of a computed
-diversity metric.
-}
-\details{
-The returned table can be used by plotting, exporting and summary
-functions without accessing the internal structure of a
-\code{pb_project}.
-}
-\examples{
-\dontrun{
-
-tab <- metric_table(
-  pb,
-  metric = "pd"
-)
-
-head(tab)
-
-}
-
+Returns a standardised table containing the values of a computed metric.
 }
