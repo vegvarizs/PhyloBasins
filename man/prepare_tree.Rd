@@ -4,12 +4,15 @@
 \alias{prepare_tree}
 \title{Prepare a phylogenetic tree}
 \usage{
-prepare_tree(pb, verbose = TRUE)
+prepare_tree(pb, verbose = TRUE, force = FALSE)
 }
 \arguments{
 \item{pb}{A validated pb_project.}
 
 \item{verbose}{Logical. Print progress messages?}
+
+\item{force}{Logical. Continue even if tree validation failed.
+Intended for development and validation workflows only.}
 }
 \value{
 Updated pb_project.

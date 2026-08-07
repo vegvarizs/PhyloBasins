@@ -9,8 +9,8 @@ pb_community(
   sites = character(),
   taxa = character(),
   file = NA_character_,
-  loaded = FALSE,
-  validation = list(valid = FALSE),
+  loaded = NULL,
+  validation = NULL,
   metadata = list(),
   cache = list(taxa_index = NULL, site_index = NULL)
 )

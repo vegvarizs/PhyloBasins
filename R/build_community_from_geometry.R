@@ -38,16 +38,18 @@ build_community_from_geometry <- function(
 
   geometry <- pb$geometry
 
-  if (is.null(geometry$data)) {
+  if (is.null(geometry$sf)) {
 
     stop(
-      "Geometry attribute table is missing.",
+      "Geometry object is missing.",
       call. = FALSE
     )
 
   }
 
-  attrs <- geometry$data
+  attrs <- sf::st_drop_geometry(
+    geometry$sf
+  )
 
   if (!site_id %in% names(attrs)) {
 

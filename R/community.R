@@ -52,11 +52,9 @@ pb_community <- function(
 
   file = NA_character_,
 
-  loaded = FALSE,
+  loaded = NULL,
 
-  validation = list(
-    valid = FALSE
-  ),
+  validation = NULL,
 
   metadata = list(),
 
@@ -70,8 +68,42 @@ pb_community <- function(
 
 ) {
 
-  x <- list(
+  if (is.null(loaded)) {
 
+    loaded <-
+
+      !is.null(matrix) &&
+      is.matrix(matrix)
+
+  }
+
+  if (length(sites) == 0 &&
+      !is.null(matrix) &&
+      is.matrix(matrix)) {
+
+    sites <- rownames(matrix)
+
+  }
+
+  if (length(taxa) == 0 &&
+      !is.null(matrix) &&
+      is.matrix(matrix)) {
+
+    taxa <- colnames(matrix)
+
+  }
+
+  if (is.null(validation)) {
+
+    validation <- list(
+
+      valid = loaded
+
+    )
+
+  }
+
+  x <- list(
     matrix = matrix,
 
     sites = sites,

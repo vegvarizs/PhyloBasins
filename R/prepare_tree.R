@@ -9,13 +9,18 @@
 #' @param pb A validated pb_project.
 #' @param verbose Logical. Print progress messages?
 #'
+#' @param force
+#' Logical. Continue even if tree validation failed.
+#' Intended for development and validation workflows only.
+#'
 #' @return Updated pb_project.
 #'
 #' @export
 
 prepare_tree <- function(
     pb,
-    verbose = TRUE
+    verbose = TRUE,
+    force = FALSE
 ) {
 
   validate_pb_project(pb)
@@ -28,10 +33,21 @@ prepare_tree <- function(
   }
 
   if (!isTRUE(pb$tree$validation$valid)) {
-    stop(
-      "Tree has not passed validation.",
+
+    if (!isTRUE(force)) {
+
+      stop(
+        "Tree has not passed validation.",
+        call. = FALSE
+      )
+
+    }
+
+    warning(
+      "Continuing despite failed tree validation (force = TRUE).",
       call. = FALSE
     )
+
   }
 
   if (isTRUE(pb$tree$prepared)) {
